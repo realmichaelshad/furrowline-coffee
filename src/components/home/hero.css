@@ -1,0 +1,222 @@
+/* Home hero. Tokens come from globals.css (@theme static). */
+
+.hero {
+  --hero-pad: clamp(0.5rem, 0.9vw, 0.875rem);
+  --hero-radius: clamp(14px, 1.5vw, 24px);
+  position: relative;
+  height: 100svh;
+  min-height: 40rem;
+  max-height: 68rem;
+  z-index: 1;
+}
+
+.hero-frame {
+  position: absolute;
+  inset: var(--header-h) var(--hero-pad) var(--hero-pad);
+  overflow: hidden;
+  border-radius: var(--hero-radius);
+  background: #2a1d15;
+  color: var(--color-parchment);
+  isolation: isolate;
+  animation: hero-mask 1500ms var(--ease-out-expo) both;
+}
+
+@keyframes hero-mask {
+  from {
+    clip-path: inset(6% 4.5% 6% 4.5% round 40px);
+  }
+  to {
+    clip-path: inset(0 round var(--hero-radius));
+  }
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  transform-origin: 60% 40%;
+}
+
+.hero-zoom {
+  animation: settle-zoom-soft 2000ms var(--ease-out-expo) both;
+}
+
+@keyframes settle-zoom-soft {
+  from {
+    transform: scale(1.16);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Phones: a bottom scrim under the copy. Desktop: the photo's own dark wall plus a soft left wash. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(20 13 9 / 0.1) 0%, rgb(20 13 9 / 0) 28%, rgb(20 13 9 / 0.55) 55%, rgb(20 13 9 / 0.9) 100%);
+}
+
+.hero-copy {
+  position: absolute;
+  inset: auto 0 0 0;
+  max-width: none;
+  padding-bottom: clamp(1.5rem, 4.5vh, 3.25rem);
+}
+
+.hero-title {
+  /* Width-led on wide screens, height-led on short ones (1280 × 720, 1440 × 810)
+     so the four lines never crowd the intro paragraph and buttons at the bottom of the frame. */
+  font-size: clamp(3.4rem, min(8.3vw, 23.5svh - 6.5rem), 9.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.038em;
+  font-weight: 330;
+  color: var(--color-parchment);
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 380;
+  color: var(--color-peach);
+  letter-spacing: -0.02em;
+  padding-right: 0.05em;
+}
+
+.hero-lead {
+  max-width: 40ch;
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: rgb(244 236 223 / 0.9);
+}
+
+.hero-note {
+  display: none;
+}
+
+.hero-cue {
+  display: none;
+}
+
+.hero-bag {
+  display: none;
+}
+
+@media (width >= 64rem) {
+  /* A parchment strip under the frame: the bag breaks the frame's edge and
+     the next section is hinted at, all inside the first view. */
+  .hero-frame {
+    inset: var(--header-h) var(--hero-pad) calc(var(--hero-pad) + 3.25rem);
+  }
+
+  .hero-scrim {
+    background:
+      linear-gradient(90deg, rgb(20 13 9 / 0.5) 0%, rgb(20 13 9 / 0.22) 34%, rgb(20 13 9 / 0) 52%),
+      linear-gradient(0deg, rgb(20 13 9 / 0.55) 0%, rgb(20 13 9 / 0) 34%);
+  }
+
+  .hero-copy {
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: clamp(2.5rem, 8vh, 5.5rem);
+    padding-bottom: clamp(2rem, 5.5vh, 3.75rem);
+  }
+
+  .hero-note {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1.1rem 0.8rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgb(244 236 223 / 0.18);
+    background: rgb(36 25 19 / 0.42);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: var(--color-parchment);
+  }
+  .hero-note-dot {
+    position: relative;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--color-peach);
+  }
+  .hero-note-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--color-peach);
+    animation: hero-ping 2.4s var(--ease-out-quart) infinite;
+  }
+
+  .hero-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: -1.5rem;
+    width: 3rem;
+    color: rgb(244 236 223 / 0.8);
+  }
+  .hero-cue-line {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 3.25rem;
+    overflow: hidden;
+    background: rgb(244 236 223 / 0.25);
+  }
+  .hero-cue-line > span {
+    position: absolute;
+    inset: 0;
+    background: var(--color-parchment);
+    animation: cue-drop 2.2s var(--ease-in-out-quart) infinite;
+    animation-delay: 1.8s;
+  }
+
+  .hero-bag {
+    position: absolute;
+    right: 7vw;
+    bottom: 1rem;
+    z-index: 2;
+    display: block;
+    width: clamp(10rem, 13.5vw, 15.5rem);
+    pointer-events: none;
+  }
+  .hero-bag-inner {
+    transform: rotate(-7deg);
+    filter: drop-shadow(0 28px 32px rgb(36 25 19 / 0.38));
+    animation: float-in 1400ms var(--ease-out-expo) 900ms both;
+  }
+}
+
+@keyframes hero-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-frame,
+  .hero-zoom,
+  .hero-bag-inner {
+    animation: none !important;
+    clip-path: none;
+  }
+  .hero-note-dot::after {
+    display: none;
+  }
+}

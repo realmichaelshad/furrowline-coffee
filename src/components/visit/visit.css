@@ -1,0 +1,700 @@
+/* ==========================================================================
+   Visit page. Tokens come from globals.css (@theme static).
+   ========================================================================== */
+
+/* ---- Hero ------------------------------------------------------------------ */
+
+.visit-hero-frame {
+  --frame-radius: var(--radius-lg);
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--frame-radius);
+  background: #836245;
+  isolation: isolate;
+  animation: visit-mask 1500ms var(--ease-out-expo) 120ms both;
+}
+@media (width >= 40rem) {
+  .visit-hero-frame {
+    aspect-ratio: 3 / 2;
+  }
+}
+@media (width >= 64rem) {
+  .visit-hero-frame {
+    aspect-ratio: 21 / 9;
+  }
+}
+@keyframes visit-mask {
+  from {
+    clip-path: inset(7% 5% 7% 5% round 40px);
+  }
+  to {
+    clip-path: inset(0 round var(--frame-radius));
+  }
+}
+.visit-hero-media {
+  position: absolute;
+  inset: 0;
+}
+.visit-hero-zoom {
+  animation: visit-zoom 2000ms var(--ease-out-expo) 120ms both;
+}
+@keyframes visit-zoom {
+  from {
+    transform: scale(1.14);
+  }
+  to {
+    transform: none;
+  }
+}
+.visit-hero-caption {
+  position: absolute;
+  left: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  padding: 0.7rem 1.05rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(244 236 223 / 0.18);
+  /* Dark enough that the caption text passes AA even over the light page tone behind the photo. */
+  background: rgb(36 25 19 / 0.8);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* ---- Open-now pill ----------------------------------------------------------- */
+
+.open-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem 0.45rem 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--rule-strong);
+  background: var(--color-linen);
+  font-size: var(--text-small);
+  font-weight: 600;
+  transition: opacity 400ms ease;
+}
+.open-pill[data-state="pending"] {
+  opacity: 0;
+}
+.open-pill-dot {
+  position: relative;
+  width: 0.6rem;
+  height: 0.6rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-dune);
+}
+.open-pill[data-state="open"] .open-pill-dot {
+  background: var(--color-moss);
+}
+.open-pill[data-state="closed"] .open-pill-dot {
+  background: var(--color-clay);
+}
+.open-pill[data-state="open"] .open-pill-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-moss);
+}
+.motion-ok .open-pill[data-state="open"] .open-pill-dot::after {
+  animation: open-ping 2.4s var(--ease-out-quart) infinite;
+}
+@keyframes open-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* ---- Hours ----------------------------------------------------------------- */
+
+.hours-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid var(--rule-strong);
+}
+.hours-row > * {
+  padding: 1.1rem 0.25rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: baseline;
+  text-align: left;
+  transition:
+    background-color 500ms ease,
+    color 500ms ease;
+}
+.hours-day {
+  width: 38%;
+  font-weight: 400;
+}
+.hours-day .display {
+  font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.hours-time {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.hours-note {
+  font-size: var(--text-small);
+  color: var(--color-bark);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+.hours-row.is-closed .hours-day .display {
+  font-style: italic;
+  color: var(--color-bark);
+}
+.hours-row.is-closed .hours-time {
+  color: var(--color-bark);
+}
+.hours-today {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.75rem;
+  height: 1.4rem;
+  padding-inline: 0.55rem;
+  vertical-align: 0.35em;
+  border-radius: var(--radius-pill);
+  background: var(--color-peach);
+  color: var(--color-espresso);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: fade-up 500ms var(--ease-out-expo) both;
+}
+.hours-row[data-today] > * {
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+  border-bottom-color: transparent;
+}
+.hours-row[data-today] .hours-note,
+.hours-row[data-today].is-closed .hours-day .display,
+.hours-row[data-today].is-closed .hours-time {
+  color: var(--color-mist);
+}
+/* Every row has the inset the highlighted row needs, so marking today shifts nothing. */
+.hours-row > :first-child {
+  padding-left: 1.1rem;
+}
+.hours-row > :last-child {
+  padding-right: 1.1rem;
+}
+.hours-row[data-today] > :first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+.hours-row[data-today] > :last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+@media (width < 40rem) {
+  .hours-table,
+  .hours-table tbody {
+    display: block;
+  }
+  .hours-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 1rem;
+    padding: 0.95rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    transition: background-color 500ms ease;
+  }
+  .hours-row > * {
+    padding: 0;
+    border: 0;
+  }
+  .hours-day {
+    width: auto;
+  }
+  .hours-note {
+    grid-column: 1 / -1;
+    margin-top: 0.15rem;
+  }
+  .hours-note:empty {
+    display: none;
+  }
+  .hours-row[data-today] {
+    border-radius: var(--radius-md);
+    border-bottom-color: transparent;
+    background: var(--color-espresso);
+  }
+  .hours-row[data-today] > * {
+    background: transparent;
+  }
+  .hours-row > :first-child,
+  .hours-row > :last-child {
+    padding-inline: 0;
+    border-radius: 0 !important;
+  }
+}
+
+/* ---- Town map ----------------------------------------------------------------- */
+
+.town-map {
+  position: relative;
+}
+.map-frame {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.map-inner {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: #e9ddc8;
+}
+@media (width >= 40rem) {
+  .map-inner {
+    aspect-ratio: 3 / 2;
+  }
+}
+@media (width >= 64rem) {
+  .map-inner {
+    aspect-ratio: 1200 / 640;
+  }
+}
+.map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.map-label {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  fill: var(--color-bark);
+  paint-order: stroke;
+  stroke: #fbf7f0;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.map-label-sm {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+}
+.map-water {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  fill: var(--color-moss);
+}
+.map-park {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 24px;
+  fill: var(--color-moss);
+}
+.map-sign {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  fill: var(--color-parchment);
+}
+
+.map-compass-wrap {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  width: clamp(3rem, 5vw, 4.25rem);
+}
+.map-compass-n {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 500;
+  fill: var(--color-espresso);
+}
+.map-scale {
+  position: absolute;
+  left: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: rgb(251 247 240 / 0.85);
+}
+.map-scale-bar {
+  display: flex;
+  width: 6rem;
+  height: 0.35rem;
+  border: 1px solid var(--color-espresso);
+}
+.map-scale-bar > span {
+  flex: 1;
+}
+.map-scale-bar > span:first-child {
+  background: var(--color-espresso);
+}
+.map-scale-label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-espresso);
+}
+
+/* The pin: its tip sits on the viewBox centre (the roastery's corner door). */
+.map-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  z-index: 2;
+  color: var(--color-espresso);
+  text-decoration: none;
+}
+.map-pin:focus-visible {
+  outline: none;
+}
+.map-pin-head {
+  position: absolute;
+  left: -1.6rem;
+  bottom: 0.35rem;
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50% 50% 50% 0;
+  background: var(--color-espresso);
+  border: 2px solid var(--color-parchment);
+  box-shadow: 0 12px 24px -8px rgb(36 25 19 / 0.6);
+  transform: rotate(-45deg);
+  transform-origin: 50% 50%;
+  transition:
+    transform 500ms var(--ease-spring),
+    background-color var(--duration-fast) ease;
+}
+.map-pin-head > svg {
+  transform: rotate(45deg);
+}
+.map-pin:hover .map-pin-head,
+.map-pin:focus-visible .map-pin-head {
+  background: var(--color-clay);
+  transform: rotate(-45deg) scale(1.08);
+}
+.map-pin:focus-visible .map-pin-head {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 4px;
+}
+.map-pin-pulse {
+  position: absolute;
+  left: -0.5rem;
+  top: -0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: rgb(164 71 42 / 0.35);
+}
+.motion-ok .map-pin-pulse {
+  animation: open-ping 2.6s var(--ease-out-quart) infinite;
+}
+.map-pin-tag {
+  position: absolute;
+  left: 2.1rem;
+  bottom: 1.45rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: opacity 250ms ease;
+}
+.map-pin-card {
+  position: absolute;
+  left: -8.5rem;
+  bottom: 4.6rem;
+  width: 17rem;
+  padding: 0.9rem 1.1rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-linen);
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  transform: translate3d(0, 0.5rem, 0) scale(0.96);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+  transition:
+    opacity 220ms ease,
+    transform 450ms var(--ease-out-expo);
+}
+.map-pin-card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.4rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-left: -0.4rem;
+  background: var(--color-linen);
+  transform: rotate(45deg);
+}
+.map-pin:hover .map-pin-card,
+.map-pin:focus-visible .map-pin-card {
+  opacity: 1;
+  transform: none;
+}
+.map-pin:hover .map-pin-tag,
+.map-pin:focus-visible .map-pin-tag {
+  opacity: 0;
+}
+
+.map-caption {
+  margin-top: 1rem;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.map-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.map-key {
+  display: inline-grid;
+  place-items: center;
+  font-style: normal;
+}
+.map-key-roastery {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--color-espresso);
+  box-shadow: inset 0 0 0 2.5px var(--color-espresso), inset 0 0 0 6px var(--color-peach);
+}
+.map-key-parking {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 4px;
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0;
+}
+.map-key-path {
+  width: 1.6rem;
+  height: 2px;
+  background-image: radial-gradient(circle, var(--color-bark) 1px, transparent 1.5px);
+  background-size: 6px 2px;
+}
+.map-key-rail {
+  width: 1.6rem;
+  height: 5px;
+  border-block: 1.5px solid var(--color-espresso);
+}
+
+/* ---- Find us ------------------------------------------------------------------ */
+
+.visit-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 2.75rem;
+  font-weight: 560;
+}
+.visit-notes {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule-strong);
+}
+.visit-notes > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 1.2rem;
+  border-bottom: 1px solid var(--rule);
+}
+.visit-note-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--color-parchment);
+  color: var(--color-clay);
+}
+@media (width >= 40rem) {
+  .visit-notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+  }
+}
+
+/* ---- Bar menu ------------------------------------------------------------------ */
+
+.bar-grid {
+  display: grid;
+  gap: clamp(3rem, 5vw, 4rem) clamp(2rem, 4vw, 4rem);
+}
+@media (width >= 64rem) {
+  .bar-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.bar-col {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-espresso);
+}
+.bar-col-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.bar-price-tag {
+  flex-shrink: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-oat);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+.bar-list {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1.75rem;
+}
+.bar-item {
+  display: grid;
+  gap: 0.15rem;
+}
+.bar-item-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.bar-item-name {
+  font-weight: 600;
+}
+.bar-swatch {
+  align-self: center;
+  width: 0.7rem;
+  height: 0.7rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(36 25 19 / 0.15);
+}
+.bar-leader {
+  flex: 1;
+  min-width: 1.5rem;
+  height: 1px;
+  align-self: center;
+  margin-top: 0.4em;
+  background-image: radial-gradient(circle, var(--color-dune) 0.8px, transparent 1.2px);
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+}
+.bar-item-price {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.bar-item-detail {
+  font-size: var(--text-small);
+  color: var(--color-bark);
+}
+
+/* ---- Cupping -------------------------------------------------------------------- */
+
+.cupping {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+  padding: clamp(0.75rem, 1.2vw, 1rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+.cupping-media {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.cupping-copy {
+  padding: 0 clamp(0.75rem, 2vw, 1.5rem) clamp(1.75rem, 3vw, 2.5rem);
+}
+.cupping-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Each fact is value-over-label (column-reverse): don't stretch the cells, or a one-line label
+     lets its value sink below its neighbours'. */
+  align-items: start;
+  gap: 1.5rem 2rem;
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--rule-inverse);
+}
+@media (width >= 64rem) {
+  .cupping {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+  .cupping-copy {
+    padding: clamp(1.5rem, 3vw, 3rem) clamp(1.5rem, 3vw, 3rem) clamp(1.5rem, 3vw, 3rem) 0;
+  }
+  .cupping-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---- Closing -------------------------------------------------------------------- */
+
+.visit-closing {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-oat);
+}
+.visit-closing > .texture {
+  z-index: -1;
+}
+.visit-closing em {
+  font-style: italic;
+  color: var(--color-clay-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visit-hero-frame,
+  .visit-hero-zoom {
+    animation: none !important;
+    clip-path: none;
+  }
+}

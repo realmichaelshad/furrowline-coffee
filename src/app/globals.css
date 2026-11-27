@@ -1,0 +1,1426 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Furrowline design tokens
+   Every colour, type size, spacing step and easing curve used on the site
+   lives here. Components use the Tailwind utilities these tokens generate
+   (bg-parchment, text-espresso, font-display, text-display-xl, py-section…).
+   ========================================================================== */
+
+@theme static {
+  /* Reset Tailwind's default palette so only brand colours exist. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Core palette */
+  --color-espresso: #241913; /* ink: text, dark surfaces */
+  --color-loam: #3a2a20; /* deep surface, footer, route section */
+  --color-bark: #5c4a3c; /* secondary text on light (7.2:1 on parchment) */
+  --color-dune: #9b8670; /* decorative only: rules, icons, never body text */
+  --color-oat: #e9ddc8; /* alt section background */
+  --color-parchment: #f4ecdf; /* page background */
+  --color-linen: #fbf7f0; /* raised surfaces: cards, drawer, inputs */
+  --color-clay: #a4472a; /* primary accent, CTAs (5.1:1 with parchment) */
+  --color-clay-deep: #8e3a20; /* hover/pressed clay; clay text on oat */
+  --color-moss: #4b5a32; /* secondary accent, success */
+  --color-ochre: #c88a2e; /* highlights, decorative */
+  --color-peach: #efa47a; /* accent on dark surfaces (8.4:1 on espresso) */
+  --color-sage: #a9b38c; /* decorative on dark */
+  --color-mist: #c9b9a3; /* secondary text on dark (8.9:1 on espresso) */
+  --color-error: #9a2b1f; /* form errors (6.5:1 on parchment) */
+
+  /* Signature coffee colours (bag + showcase backgrounds) */
+  --color-first-light: #f0b48f;
+  --color-first-light-deep: #efc3a4;
+  --color-honey-ridge: #b4412f;
+  --color-honey-ridge-deep: #9e3a2a;
+  --color-highland: #db8a35;
+  --color-highland-deep: #d9963f;
+  --color-deep-field: #3b1c22;
+  --color-deep-field-deep: #2b1418;
+
+  /* Type families (set by next/font in src/lib/fonts.ts) */
+  --font-display: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), "DM Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Fluid editorial type scale */
+  --text-display-xl: clamp(3.5rem, 11.2vw, 11.5rem);
+  --text-display-xl--line-height: 0.86;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-l: clamp(3rem, 7.6vw, 7.75rem);
+  --text-display-l--line-height: 0.9;
+  --text-display-l--letter-spacing: -0.035em;
+  --text-display-m: clamp(2.5rem, 5.4vw, 5.25rem);
+  --text-display-m--line-height: 0.95;
+  --text-display-m--letter-spacing: -0.03em;
+  --text-h1: clamp(2.25rem, 4.2vw, 4rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h2: clamp(1.875rem, 3vw, 2.75rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.375rem, 1.8vw, 1.75rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.01em;
+  --text-lead: clamp(1.125rem, 1.35vw, 1.3125rem);
+  --text-lead--line-height: 1.55;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.5;
+  --text-micro: 0.8125rem;
+  --text-micro--line-height: 1.4;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.3;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* Spacing additions (Tailwind's 4px scale stays for everything else) */
+  --spacing-gutter: clamp(1rem, 4vw, 3.5rem);
+  --spacing-grid: clamp(1rem, 2vw, 1.5rem);
+  --spacing-section: clamp(5.5rem, 11vw, 10.5rem);
+  --spacing-section-sm: clamp(4rem, 7vw, 6.5rem);
+  --spacing-header: 4.5rem;
+
+  /* Radius scale: editorial means mostly crisp corners */
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* Shadows: warm, soft, low */
+  --shadow-soft: 0 1px 2px rgb(36 25 19 / 0.06), 0 8px 24px -8px rgb(36 25 19 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(36 25 19 / 0.08), 0 24px 48px -16px rgb(36 25 19 / 0.32);
+  --shadow-drawer: -24px 0 64px -24px rgb(36 25 19 / 0.45);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 180ms;
+  --duration-base: 320ms;
+  --duration-slow: 700ms;
+  --duration-reveal: 1100ms;
+
+  --breakpoint-xs: 26rem;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --rule: rgb(36 25 19 / 0.16);
+    --rule-strong: rgb(36 25 19 / 0.4);
+    --rule-inverse: rgb(244 236 223 / 0.18);
+    --header-h: var(--spacing-header);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  /* A section that received focus from an in-page jump (src/lib/motion/anchors.ts): focus moves there
+     so the next Tab starts from it, but a whole section is not a control and gets no ring. */
+  [data-anchor-focus]:focus {
+    outline: none;
+  }
+
+  /* Lenis owns smooth scrolling; native smooth scroll would fight it. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-espresso);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-optical-sizing: auto;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-clay);
+    color: var(--color-linen);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-clay);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible,
+  [data-theme="dark"] :focus-visible {
+    outline-color: var(--color-peach);
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Layout utilities
+   ========================================================================== */
+
+/* Centered page container with the fluid gutter. */
+@utility shell {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+/* 4 columns on phones, 12 from md up. */
+@utility grid-editorial {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--spacing-grid);
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* Mono uppercase label used for eyebrows, meta lines, prices. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Fraunces display setting: high optical size, soft. */
+@utility display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 360;
+}
+
+/* Hairline rules */
+@utility rule-t {
+  border-top: 1px solid var(--rule);
+}
+@utility rule-b {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Visually hidden but available to screen readers */
+@utility sr-only-focusable {
+  &:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Hide scrollbars on carousels while keeping them scrollable */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Interaction primitives (see DESIGN.md › Motion)
+   ========================================================================== */
+
+/* Link underline sweep: underline draws in from the left on hover/focus. */
+@utility link-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--duration-base) var(--ease-out-quart);
+  padding-bottom: 2px;
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+    background-position: 0% 100%;
+  }
+}
+
+/* Inverse: underline present, sweeps away and back on hover. */
+@utility link-sweep-under {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+  &:hover,
+  &:focus-visible {
+    animation: link-resweep 600ms var(--ease-out-quart);
+  }
+}
+
+@keyframes link-resweep {
+  0% {
+    background-size: 100% 1px;
+    background-position: 100% 100%;
+  }
+  45% {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+  46% {
+    background-size: 0% 1px;
+    background-position: 0% 100%;
+  }
+  100% {
+    background-size: 100% 1px;
+    background-position: 0% 100%;
+  }
+}
+
+/* ==========================================================================
+   Grain overlay: a pre-rendered noise tile (public/textures/grain.png, made
+   by `npm run brand`), fixed over everything. No animation, no blend modes.
+   ========================================================================== */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.42;
+  background-size: 160px 160px;
+}
+/* Applied once the page has loaded (MotionProvider sets html.is-loaded), so the
+   tile never competes with the hero image. */
+html.is-loaded .grain {
+  background-image: url("/textures/grain.webp");
+}
+
+/* Contour textures (<Texture>): a static SVG used as a mask over currentColor.
+   In the components layer so utilities (inset, size, colour) can override it. */
+@layer components {
+  .texture {
+    position: absolute;
+    inset: 0;
+    display: block;
+    pointer-events: none;
+    background-color: currentColor;
+    -webkit-mask-image: var(--tex);
+    mask-image: var(--tex);
+    -webkit-mask-size: var(--tex-size, cover);
+    mask-size: var(--tex-size, cover);
+    -webkit-mask-position: var(--tex-pos, center);
+    mask-position: var(--tex-pos, center);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+  /* Textures load only when near the viewport (InteractionLayer sets data-near). */
+  .texture:not([data-near]) {
+    background-color: transparent;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+/* Sections below the last scroll scene skip rendering until they are close
+   (no style, layout, paint or image fetches for content nobody can see yet).
+   Never use this on or above a GSAP scene: ScrollTrigger needs real sizes. */
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/* ==========================================================================
+   Reveal system
+   Elements with [data-reveal] are visible by default. The RevealObserver
+   (client) adds .reveal-pending ONLY to elements that start below the fold,
+   then .reveal-in when they enter. No JS, reduced motion, or already-visible
+   content: nothing is ever hidden.
+   ========================================================================== */
+
+[data-reveal] {
+  --reveal-delay: 0ms;
+}
+
+.motion-ok [data-reveal].reveal-pending {
+  opacity: 0;
+  transform: translate3d(0, 2.25rem, 0);
+}
+.motion-ok [data-reveal="fade"].reveal-pending {
+  transform: none;
+}
+/* Clip reveals clip the element's CHILDREN, never the observed element itself:
+   Chromium's IntersectionObserver applies a target's own clip-path, so a fully
+   clipped target never reports as intersecting and would stay hidden. Put
+   data-reveal="clip" on a wrapper (overflow-hidden + radius) around the media. */
+.motion-ok [data-reveal="clip"].reveal-pending,
+.motion-ok [data-reveal="clip-x"].reveal-pending {
+  opacity: 1;
+  transform: none;
+}
+.motion-ok [data-reveal="clip"].reveal-pending > * {
+  clip-path: inset(100% 0 0 0);
+}
+.motion-ok [data-reveal="clip-x"].reveal-pending > * {
+  clip-path: inset(0 100% 0 0);
+}
+.motion-ok [data-reveal="clip"].reveal-in > *,
+.motion-ok [data-reveal="clip-x"].reveal-in > * {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1300ms var(--ease-out-expo) var(--reveal-delay);
+}
+.motion-ok [data-reveal="scale"].reveal-pending {
+  transform: scale(0.94);
+}
+
+.motion-ok [data-reveal].reveal-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 900ms var(--ease-out-quart) var(--reveal-delay),
+    transform 1100ms var(--ease-out-expo) var(--reveal-delay);
+}
+
+/* Inner image of a clip reveal settles from a slight zoom. */
+.motion-ok [data-reveal="clip"].reveal-pending [data-reveal-zoom] {
+  transform: scale(1.18);
+}
+.motion-ok [data-reveal="clip"].reveal-in [data-reveal-zoom] {
+  transform: none;
+  transition: transform 1600ms var(--ease-out-expo) var(--reveal-delay);
+}
+
+/* Line-mask reveal for headings built with <Lines> (CSS-only stagger). */
+.line-mask {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.line-mask > .line-inner {
+  display: block;
+}
+.motion-ok [data-reveal="lines"].reveal-pending {
+  opacity: 1;
+  transform: none;
+}
+.motion-ok [data-reveal="lines"].reveal-pending .line-inner {
+  transform: translate3d(0, 135%, 0);
+}
+.motion-ok [data-reveal="lines"].reveal-in .line-inner {
+  transform: none;
+  transition: transform 1100ms var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay) + var(--line-index, 0) * 90ms);
+}
+
+/* ==========================================================================
+   Hero entrance (pure CSS, runs from first paint, never waits for JS)
+   ========================================================================== */
+
+@keyframes rise-in {
+  from {
+    transform: translate3d(0, 135%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes clip-up {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes clip-left {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes settle-zoom {
+  from {
+    transform: scale(1.22);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3rem, 0) rotate(-14deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(-7deg);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cue-drop {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(260%);
+  }
+}
+@keyframes marquee-x {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.45);
+  }
+  70% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -0.75rem, 0);
+  }
+}
+
+.hero-line > .line-inner {
+  animation: rise-in 1150ms var(--ease-out-expo) both;
+  animation-delay: calc(80ms + var(--line-index, 0) * 95ms);
+}
+.hero-fade {
+  animation: fade-up 900ms var(--ease-out-quart) both;
+  animation-delay: var(--delay, 500ms);
+}
+.hero-clip {
+  animation: clip-up 1400ms var(--ease-out-expo) both;
+  animation-delay: var(--delay, 200ms);
+}
+.hero-clip [data-reveal-zoom] {
+  animation: settle-zoom 1800ms var(--ease-out-expo) both;
+  animation-delay: var(--delay, 200ms);
+}
+.hero-wipe {
+  animation: clip-left 1800ms var(--ease-in-out-quart) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* ==========================================================================
+   Page transitions
+   src/app/template.tsx wraps each page in <ViewTransition enter="page-in"
+   exit="page-out">. Old page lifts and fades fast; the new one rises in a
+   beat later. The header keeps its own name so it never moves. Browsers
+   without the API get a CSS rise on .page-enter after the first client
+   navigation (MotionProvider sets html.has-navigated).
+   ========================================================================== */
+
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.page-out) {
+  animation: page-out 240ms var(--ease-in-out-quart) both;
+}
+::view-transition-new(.page-in) {
+  animation: page-in 640ms var(--ease-out-expo) 160ms both;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 240ms;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@supports not (view-transition-name: none) {
+  html.has-navigated.motion-ok .page-enter {
+    animation: page-in 620ms var(--ease-out-expo) both;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion: everything visible, nothing moves.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  [data-reveal],
+  [data-reveal] .line-inner,
+  .hero-line > .line-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  [data-reveal^="clip"] > * {
+    clip-path: none !important;
+  }
+  .motion-only {
+    display: none !important;
+  }
+}
+
+/* Showcase captures can force a linear, settled layout. Full-page screenshots
+   don't render content-visibility:auto sections that are off screen, so the
+   deferred sections render normally in captures. */
+html[data-showcase] .defer-render,
+html[data-showcase] .showcase-panel {
+  content-visibility: visible;
+}
+html[data-showcase] .grain {
+  opacity: 0.05;
+}
+/* Linear captures show every element in its settled state. Entrance animations are switched off rather
+   than left filling: Chromium's full-page capture drops some elements whose finished animation is still
+   held on the compositor (the hero bag, the "on the drum" chip and the scroll cue went missing). */
+html[data-showcase="linear"] *,
+html[data-showcase="linear"] *::before,
+html[data-showcase="linear"] *::after {
+  animation: none !important;
+}
+
+/* Slow turn for the roast stamp (decorative; only when motion is allowed). */
+.motion-ok .stamp-spin {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: spin-slow 28s linear infinite;
+}
+
+/* ==========================================================================
+   Photo treatments (see <Photo tint duotone shade>)
+   ========================================================================== */
+
+.photo-tint {
+  mix-blend-mode: multiply;
+  opacity: 0.38;
+}
+.photo-tint-strong {
+  opacity: 0.88;
+}
+.photo-duotone {
+  filter: grayscale(1) contrast(1.08) brightness(1.12);
+}
+
+/* ==========================================================================
+   Components (class names used by src/components/ui)
+   ========================================================================== */
+
+@layer components {
+  /* ---- Buttons ---------------------------------------------------------- */
+  .btn {
+    --btn-bg: var(--color-clay);
+    --btn-fg: var(--color-linen);
+    --btn-sweep: var(--color-espresso);
+    --btn-sweep-fg: var(--color-parchment);
+    --btn-border: transparent;
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--btn-border);
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-family: var(--font-sans);
+    font-weight: 560;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+      color var(--duration-base) var(--ease-out-quart),
+      border-color var(--duration-base) var(--ease-out-quart),
+      transform 500ms var(--ease-out-expo);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -25%;
+    top: 100%;
+    width: 150%;
+    height: 220%;
+    border-radius: 50%;
+    background: var(--btn-sweep);
+    transform: translate3d(0, 0, 0);
+    transition: transform 620ms var(--ease-out-expo);
+  }
+  .btn:focus-visible::before {
+    transform: translate3d(0, -72%, 0);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover::before {
+      transform: translate3d(0, -72%, 0);
+    }
+  }
+  .btn:focus-visible {
+    color: var(--btn-sweep-fg);
+    border-color: var(--btn-sweep);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      color: var(--btn-sweep-fg);
+      border-color: var(--btn-sweep);
+    }
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .btn-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    transition: transform 500ms var(--ease-out-expo);
+  }
+  .btn-roll {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1.25;
+  }
+  .btn-roll-a,
+  .btn-roll-b {
+    display: block;
+    transition: transform 560ms var(--ease-out-expo);
+  }
+  .btn-roll-b {
+    position: absolute;
+    inset: 0;
+    transform: translate3d(0, 105%, 0);
+  }
+  .btn:focus-visible .btn-roll-a {
+    transform: translate3d(0, -105%, 0);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover .btn-roll-a {
+      transform: translate3d(0, -105%, 0);
+    }
+  }
+  .btn:focus-visible .btn-roll-b {
+    transform: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover .btn-roll-b {
+      transform: none;
+    }
+  }
+  .btn-icon {
+    transition: transform 560ms var(--ease-out-expo);
+  }
+  .btn:focus-visible .btn-icon {
+    transform: translate3d(0.2em, 0, 0);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover .btn-icon {
+      transform: translate3d(0.2em, 0, 0);
+    }
+  }
+  .btn-sm {
+    height: 2.5rem;
+    padding-inline: 1.1rem;
+    font-size: 0.875rem;
+  }
+  .btn-md {
+    height: 3.25rem;
+    padding-inline: 1.6rem;
+    font-size: 0.96875rem;
+  }
+  .btn-lg {
+    height: 4rem;
+    padding-inline: 2.1rem;
+    font-size: 1.0625rem;
+  }
+  .btn-dark {
+    --btn-bg: var(--color-espresso);
+    --btn-fg: var(--color-parchment);
+    --btn-sweep: var(--color-clay);
+    --btn-sweep-fg: var(--color-linen);
+  }
+  .btn-outline {
+    --btn-bg: transparent;
+    --btn-fg: var(--color-espresso);
+    --btn-border: var(--rule-strong);
+    --btn-sweep: var(--color-espresso);
+    --btn-sweep-fg: var(--color-parchment);
+  }
+  .btn-outline-light {
+    --btn-bg: rgb(36 25 19 / 0.12);
+    --btn-fg: var(--color-parchment);
+    --btn-border: rgb(244 236 223 / 0.5);
+    --btn-sweep: var(--color-parchment);
+    --btn-sweep-fg: var(--color-espresso);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .btn-light {
+    --btn-bg: var(--color-parchment);
+    --btn-fg: var(--color-espresso);
+    --btn-sweep: var(--color-peach);
+    --btn-sweep-fg: var(--color-espresso);
+  }
+  .btn-ghost {
+    --btn-bg: transparent;
+    --btn-fg: currentColor;
+    --btn-sweep: rgb(36 25 19 / 0.08);
+    --btn-sweep-fg: currentColor;
+  }
+  [data-magnetic] {
+    will-change: transform;
+    transition: transform 520ms var(--ease-out-expo);
+  }
+
+  /* ---- Links ------------------------------------------------------------ */
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 560;
+    text-decoration: none;
+  }
+  .arrow-link-icon {
+    transition: transform 500ms var(--ease-out-expo);
+  }
+  .arrow-link:hover .arrow-link-icon,
+  .arrow-link:focus-visible .arrow-link-icon {
+    transform: translate3d(0.3em, 0, 0);
+  }
+  .arrow-link:hover .link-sweep,
+  .arrow-link:focus-visible .link-sweep {
+    background-size: 100% 1px;
+    background-position: 0% 100%;
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: inherit;
+    transition:
+      background-color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease,
+      transform 400ms var(--ease-out-expo);
+  }
+  .icon-btn:hover {
+    border-color: var(--rule-strong);
+    background: rgb(36 25 19 / 0.05);
+  }
+  .icon-btn:active {
+    transform: scale(0.94);
+  }
+
+  /* ---- Cursor bubble ---------------------------------------------------- */
+  .view-cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 70;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+  .view-cursor > span {
+    position: absolute;
+    left: -2.6rem;
+    top: -2.6rem;
+    display: grid;
+    place-items: center;
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 50%;
+    background: var(--color-espresso);
+    color: var(--color-parchment);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transform: scale(0);
+    opacity: 0;
+    transition:
+      transform 420ms var(--ease-out-expo),
+      opacity 200ms ease;
+  }
+  .view-cursor.is-visible > span {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  /* ---- Form fields ------------------------------------------------------ */
+  .field-label {
+    display: block;
+    font-size: var(--text-small);
+    font-weight: 560;
+    margin-bottom: 0.45rem;
+  }
+  .field-hint {
+    font-size: var(--text-micro);
+    color: var(--color-bark);
+    margin-top: 0.4rem;
+  }
+  .field-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    font-size: var(--text-micro);
+    font-weight: 560;
+    color: var(--color-error);
+    margin-top: 0.45rem;
+    animation: fade-up 320ms var(--ease-out-quart) both;
+  }
+  .input {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--rule-strong);
+    background: var(--color-linen);
+    color: var(--color-espresso);
+    font: inherit;
+    font-size: 1rem;
+    transition:
+      border-color var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+  }
+  .input::placeholder {
+    color: color-mix(in oklab, var(--color-bark) 75%, transparent);
+  }
+  .input:hover {
+    border-color: var(--color-bark);
+  }
+  .input:focus-visible {
+    outline: none;
+    border-color: var(--color-clay);
+    box-shadow: 0 0 0 3px rgb(164 71 42 / 0.22);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgb(154 43 31 / 0.12);
+  }
+  textarea.input {
+    min-height: 8rem;
+    resize: vertical;
+    line-height: 1.55;
+  }
+  select.input {
+    appearance: none;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23241913' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 1.1rem;
+  }
+  .input-on-dark {
+    background: rgb(244 236 223 / 0.06);
+    border-color: rgb(244 236 223 / 0.35);
+    color: var(--color-parchment);
+  }
+  .input-on-dark::placeholder {
+    color: rgb(244 236 223 / 0.6);
+  }
+  .input-on-dark:focus-visible {
+    border-color: var(--color-peach);
+    box-shadow: 0 0 0 3px rgb(239 164 122 / 0.25);
+  }
+
+  /* Choice pills/cards (radio groups) */
+  .choice {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--rule-strong);
+    background: transparent;
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) ease,
+      background-color var(--duration-fast) ease,
+      transform 400ms var(--ease-out-expo);
+  }
+  .choice:hover {
+    border-color: var(--color-espresso);
+  }
+  .choice:has(input:checked) {
+    border-color: var(--color-espresso);
+    background: var(--color-espresso);
+    color: var(--color-parchment);
+  }
+  .choice:has(input:focus-visible) {
+    outline: 2px solid var(--color-clay);
+    outline-offset: 3px;
+  }
+  .choice:has(input:disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .choice input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ---- Badges ----------------------------------------------------------- */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 1.6rem;
+    padding-inline: 0.65rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--color-espresso);
+    color: var(--color-parchment);
+  }
+  .badge-clay {
+    background: var(--color-clay);
+    color: var(--color-linen);
+  }
+  .badge-moss {
+    background: var(--color-moss);
+    color: var(--color-parchment);
+  }
+  .badge-ochre {
+    background: var(--color-ochre);
+    color: var(--color-espresso);
+  }
+  .badge-outline {
+    background: transparent;
+    color: currentColor;
+    border: 1px solid currentColor;
+  }
+  .badge-linen {
+    background: var(--color-linen);
+    color: var(--color-espresso);
+  }
+
+  /* ---- Drawer / dialog -------------------------------------------------- */
+  /* Cart list: fades out at the bottom while there is more to scroll to. */
+  .cart-scroll[data-more] {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent);
+  }
+  .drawer {
+    position: fixed;
+    inset: 0 0 0 auto;
+    margin: 0;
+    width: min(30rem, 100vw);
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    padding: 0;
+    border: 0;
+    background: var(--color-linen);
+    color: var(--color-espresso);
+    box-shadow: var(--shadow-drawer);
+    overflow: hidden;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 640ms var(--ease-out-expo);
+  }
+  .drawer[data-side="left"] {
+    inset: 0 auto 0 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+  .drawer[data-side="full"] {
+    inset: 0;
+    width: 100vw;
+    clip-path: inset(0 0 100% 0);
+    transform: none;
+    transition: clip-path 760ms var(--ease-in-out-quart);
+    background: var(--color-espresso);
+    color: var(--color-parchment);
+  }
+  .drawer[data-state="open"] {
+    transform: none;
+  }
+  .drawer[data-side="full"][data-state="open"] {
+    clip-path: inset(0 0 0 0);
+  }
+  .drawer::backdrop {
+    background: rgb(36 25 19 / 0);
+    transition: background-color 500ms ease;
+  }
+  .drawer[data-state="open"]::backdrop {
+    background: rgb(36 25 19 / 0.48);
+  }
+
+  /* ---- Header ----------------------------------------------------------- */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    isolation: isolate;
+    color: var(--color-espresso);
+    transition: transform 650ms var(--ease-out-expo);
+  }
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: rgb(244 236 223 / 0.93);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
+    border-bottom: 1px solid var(--rule);
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+  .site-header[data-scrolled]::before {
+    opacity: 1;
+  }
+  .site-header[data-hidden] {
+    transform: translate3d(0, -100%, 0);
+  }
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 2.75rem;
+    padding-inline: 0.85rem;
+    font-size: var(--text-small);
+    font-weight: 560;
+    color: var(--color-espresso);
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.3rem;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 50%;
+    background: var(--color-clay);
+    transform: scale(0);
+    transition: transform 400ms var(--ease-spring);
+  }
+  .nav-link.is-active::after {
+    transform: scale(1);
+  }
+
+  /* ---- Mobile menu: staggered line rise ---------------------------------- */
+  .mobile-menu .menu-item .line-inner {
+    transform: translate3d(0, 135%, 0);
+    transition: transform 500ms var(--ease-in-out-quart);
+  }
+  .mobile-menu[data-state="open"] .menu-item .line-inner {
+    transform: none;
+    transition: transform 1000ms var(--ease-out-expo) calc(280ms + var(--i, 0) * 70ms);
+  }
+  .mobile-menu .menu-fade {
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .mobile-menu[data-state="open"] .menu-fade {
+    opacity: 1;
+    transition: opacity 700ms ease 560ms;
+  }
+
+  /* ---- Product card ------------------------------------------------------ */
+  .product-card {
+    position: relative;
+  }
+  .product-card-media {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--stage, var(--color-oat));
+    color: var(--stage-ink, var(--color-espresso));
+    padding-bottom: 9%;
+    isolation: isolate;
+  }
+  .product-card-contours {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.16;
+    z-index: -1;
+  }
+  .product-card-art {
+    position: relative;
+    display: block;
+    height: 80%;
+    transform-origin: 50% 92%;
+    transition: transform 800ms var(--ease-out-expo);
+  }
+  .product-card-art > svg,
+  .product-card-art > img {
+    height: 100%;
+    width: auto;
+  }
+  .product-card-shadow {
+    position: absolute;
+    bottom: 7.5%;
+    left: 22%;
+    width: 56%;
+    height: 5%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(36 25 19 / 0.42), rgb(36 25 19 / 0));
+    transition:
+      transform 800ms var(--ease-out-expo),
+      opacity 800ms var(--ease-out-expo);
+  }
+  .product-card:has(:focus-visible) .product-card-art {
+    transform: translate3d(0, -6%, 0) rotate(-4deg) scale(1.03);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .product-card:hover .product-card-art {
+      transform: translate3d(0, -6%, 0) rotate(-4deg) scale(1.03);
+    }
+  }
+  .product-card:has(:focus-visible) .product-card-shadow {
+    transform: scale(0.74);
+    opacity: 0.6;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .product-card:hover .product-card-shadow {
+      transform: scale(0.74);
+      opacity: 0.6;
+    }
+  }
+  .product-card-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    transition: background-size var(--duration-base) var(--ease-out-quart);
+  }
+  .product-card-link:focus-visible {
+    background-size: 100% 1px;
+    background-position: 0% 100%;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .product-card:hover .product-card-link {
+      background-size: 100% 1px;
+      background-position: 0% 100%;
+    }
+  }
+
+  .quick-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-espresso);
+    color: var(--color-parchment);
+    font-size: var(--text-small);
+    font-weight: 600;
+    box-shadow: var(--shadow-soft);
+    opacity: 0;
+    transform: translate3d(0, 0.9rem, 0);
+    transition:
+      transform 600ms var(--ease-out-expo),
+      opacity 300ms ease,
+      background-color var(--duration-fast) ease;
+  }
+  .quick-add:hover {
+    background: var(--color-clay);
+  }
+  .quick-add[aria-busy="true"] {
+    cursor: progress;
+  }
+  .quick-add-icon {
+    display: grid;
+    place-items: center;
+  }
+  .product-card:has(:focus-visible) .quick-add {
+    opacity: 1;
+    transform: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .product-card:hover .quick-add {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .quick-add {
+      left: auto !important;
+      width: 2.75rem;
+      opacity: 1;
+      transform: none;
+    }
+    .quick-add-label {
+      display: none;
+    }
+  }
+
+  /* ---- Product rows: snap carousel on phones, 4-up grid from lg --------- */
+  .shelf-row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(74vw, 20rem);
+    gap: var(--spacing-grid);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-inline: var(--spacing-gutter);
+    scroll-padding-inline: var(--spacing-gutter);
+    padding-bottom: 0.5rem;
+  }
+  .shelf-row > * {
+    scroll-snap-align: start;
+  }
+  @media (width >= 64rem) {
+    .shelf-row {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-columns: auto;
+      overflow: visible;
+      max-width: 90rem;
+      margin-inline: auto;
+    }
+  }
+
+  /* ---- Form success panel ------------------------------------------------- */
+  .newsletter-success {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    background: rgb(75 90 50 / 0.1);
+    animation: fade-up 520ms var(--ease-out-expo) both;
+  }
+  .newsletter-check {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--color-moss);
+    color: var(--color-parchment);
+    animation: bump 700ms var(--ease-out-quart) 150ms both;
+  }
+}

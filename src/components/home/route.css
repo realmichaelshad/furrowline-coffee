@@ -1,0 +1,286 @@
+.route {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 80% 30%, rgb(164 71 42 / 0.16), transparent 70%),
+    radial-gradient(50% 60% at 10% 90%, rgb(75 90 50 / 0.14), transparent 70%),
+    var(--color-espresso);
+  color: var(--color-parchment);
+}
+
+.route .text-bark {
+  color: var(--color-mist);
+}
+
+.route-map {
+  position: relative;
+  margin-top: clamp(3rem, 6vw, 5.5rem);
+  aspect-ratio: 1200 / 1080;
+}
+
+.route-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.route-grid line {
+  stroke: rgb(244 236 223 / 0.06);
+  stroke-width: 1;
+}
+
+#belt-hatch line {
+  stroke: rgb(239 164 122 / 0.16);
+}
+
+.route-belt-label {
+  fill: var(--color-peach);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  opacity: 0.85;
+}
+
+.route-lat line {
+  stroke: rgb(244 236 223 / 0.18);
+  stroke-dasharray: 2 6;
+}
+.route-lat text {
+  fill: rgb(244 236 223 / 0.5);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.route-hills {
+  color: rgb(244 236 223 / 0.22);
+}
+
+.route-ghost {
+  fill: none;
+  stroke: rgb(244 236 223 / 0.14);
+  stroke-width: 1.25;
+  stroke-dasharray: 3 6;
+}
+
+.route-line {
+  fill: none;
+  stroke: var(--color-peach);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.route-minor-label {
+  fill: rgb(244 236 223 / 0.62);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.route-dot circle {
+  fill: var(--color-peach);
+}
+.route-dot .route-dot-halo,
+.route-pin .route-dot-halo {
+  fill: rgb(239 164 122 / 0.22);
+}
+
+.route-home circle {
+  fill: var(--color-parchment);
+}
+.route-home .route-home-halo {
+  fill: none;
+  stroke: var(--color-peach);
+  stroke-width: 1.5;
+}
+
+.route-labels {
+  position: absolute;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+}
+
+.route-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  white-space: nowrap;
+  transform: translate(1rem, -50%);
+}
+.route-label[data-side="left"] {
+  flex-direction: row-reverse;
+  text-align: right;
+  transform: translate(calc(-100% - 1rem), -50%);
+}
+
+@media (width >= 48rem) and (width < 64rem) {
+  .route-label[data-tablet-side="left"] {
+    flex-direction: row-reverse;
+    text-align: right;
+    transform: translate(calc(-100% - 1rem), -50%);
+  }
+}
+
+.route-label-photo {
+  position: relative;
+  display: block;
+  width: 3.75rem;
+  height: 3.75rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px var(--color-espresso),
+    0 0 0 4px rgb(239 164 122 / 0.65);
+}
+
+.route-label-text {
+  display: block;
+  padding: 0.15rem 0;
+  /* A halo in the map colour so route lines read as passing behind the type. */
+  text-shadow:
+    0 0 3px var(--color-espresso),
+    0 0 8px var(--color-espresso),
+    0 0 14px var(--color-espresso);
+}
+
+.route-stops {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.route-stop {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.route-counters {
+  display: grid;
+  gap: 2rem;
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+.route-counter {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule-inverse);
+}
+.route-counter-value {
+  margin-top: 0.75rem;
+  font-size: clamp(4.25rem, 9vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 320;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.route-counter-unit {
+  margin-left: 0.12em;
+  font-size: 0.32em;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--color-peach);
+}
+
+/* ---- Phones: the taller map (ROUTE_MAP_PHONE, 1 unit ≈ 0.3 px) ---------- */
+.route-svg-wide,
+.route-hills-wide {
+  display: none;
+}
+.route-svg-phone #belt-hatch-phone line {
+  stroke: rgb(239 164 122 / 0.14);
+}
+.route-svg-phone .route-lat line {
+  stroke-width: 2.5;
+  stroke-dasharray: 6 16;
+}
+.route-svg-phone .route-lat-label,
+.route-svg-phone .route-belt-label,
+.route-svg-phone .route-home-label {
+  font-family: var(--font-mono);
+  font-size: 31px;
+  letter-spacing: 0.16em;
+}
+.route-svg-phone .route-lat-label {
+  fill: rgb(244 236 223 / 0.55);
+}
+/* A halo in the map colour so the route lines read as passing behind the type (as on desktop). */
+.route-svg-phone text {
+  paint-order: stroke;
+  stroke: #271b15;
+  stroke-width: 14px;
+  stroke-linejoin: round;
+}
+.route-svg-phone .route-pin-num {
+  stroke: none;
+}
+.route-svg-phone .route-home-label {
+  fill: var(--color-parchment);
+  font-family: var(--font-mono);
+  opacity: 0.85;
+}
+.route-svg-phone .route-ghost {
+  stroke-width: 3.5;
+  stroke-dasharray: 9 16;
+}
+.route-svg-phone .route-line {
+  stroke-width: 6;
+}
+.route-svg-phone .route-home-halo {
+  stroke-width: 4.5;
+}
+.route-pin-disc {
+  fill: var(--color-peach);
+  stroke: var(--color-espresso);
+  stroke-width: 6;
+}
+.route-pin-num {
+  fill: var(--color-espresso);
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 500;
+}
+
+/* The list's number badges match the pins. */
+.route-stop-num {
+  position: absolute;
+  top: -0.2rem;
+  left: -0.2rem;
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--color-peach);
+  box-shadow: 0 0 0 3px var(--color-espresso);
+  color: var(--color-espresso);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+@media (width >= 48rem) {
+  .route-map {
+    aspect-ratio: 1200 / 640;
+  }
+  .route-svg-wide,
+  .route-hills-wide {
+    display: block;
+  }
+  .route-svg-phone,
+  .route-hills-phone {
+    display: none;
+  }
+  .route-labels {
+    display: block;
+  }
+  .route-counters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--spacing-grid);
+  }
+}

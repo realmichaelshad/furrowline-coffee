@@ -1,0 +1,46 @@
+.manifesto-text {
+  font-size: clamp(2.1rem, 5.1vw, 5.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 340;
+  max-width: 17.5em;
+  text-wrap: pretty;
+}
+
+.manifesto-word {
+  display: inline;
+}
+
+.manifesto-pill {
+  position: relative;
+  display: inline-block;
+  vertical-align: -0.08em;
+  width: 1.9em;
+  height: 0.82em;
+  margin-inline: 0.04em 0.14em;
+  border-radius: 999px;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0 round 999px);
+  background: var(--color-oat);
+}
+
+.manifesto-pill-inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.manifesto-pill-bag {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0.06em;
+  background: var(--color-clay);
+}
+.manifesto-pill-bag > img {
+  height: 1.4em;
+  width: auto;
+  transform: rotate(-8deg);
+}

@@ -1,0 +1,787 @@
+/* ==========================================================================
+   Shop listing: header meta, filter toolbar, chips, the animated grid and
+   the two editorial tiles. Tokens come from globals.css (@theme static).
+   ========================================================================== */
+
+/* ---- Header aside --------------------------------------------------------- */
+
+.shop-meta {
+  border-top: 1px solid var(--rule-strong);
+}
+.shop-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ---- Toolbar ------------------------------------------------------------ */
+
+.shop-toolbar-wrap {
+  position: relative;
+  z-index: 30;
+}
+
+.shop-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "filter count"
+    "type type";
+  align-items: center;
+  gap: 0.9rem 1rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+}
+.shop-filter-btn {
+  grid-area: filter;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 2.75rem;
+  padding-inline: 1.1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+  font-size: var(--text-small);
+  font-weight: 600;
+  transition: background-color var(--duration-fast) ease, transform 400ms var(--ease-out-expo);
+}
+.shop-filter-btn:hover {
+  background: var(--color-clay);
+}
+.shop-filter-btn:active {
+  transform: scale(0.97);
+}
+.shop-filter-btn .facet-trigger-count {
+  background: var(--color-peach);
+  color: var(--color-espresso);
+}
+.shop-toolbar-type {
+  grid-area: type;
+  min-width: 0;
+  margin-inline: calc(-1 * var(--spacing-gutter));
+  padding-inline: var(--spacing-gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.shop-toolbar-type::-webkit-scrollbar {
+  display: none;
+}
+.shop-toolbar-facets {
+  grid-area: facets;
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+.shop-toolbar-count {
+  grid-area: count;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+  white-space: nowrap;
+}
+.shop-count-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-dune);
+  transition: background-color 300ms ease, transform 500ms var(--ease-spring);
+}
+.shop-count-dot[data-filtered] {
+  background: var(--color-clay);
+  transform: scale(1.25);
+}
+.shop-sort {
+  grid-area: sort;
+  position: relative;
+  display: none;
+  align-items: center;
+  gap: 0.6rem;
+}
+.shop-sort select {
+  appearance: none;
+  height: 2.75rem;
+  padding: 0 2.25rem 0 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  color: var(--color-espresso);
+  font: inherit;
+  font-size: var(--text-small);
+  font-weight: 560;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) ease;
+}
+.shop-sort select:hover {
+  border-color: var(--color-espresso);
+}
+.shop-sort select:focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+}
+.shop-sort svg {
+  position: absolute;
+  right: 0.9rem;
+}
+
+/* Laptops and wide tablets: one row (type, Filter & sort, count); facets and sort live in the drawer. */
+@media (width >= 56rem) {
+  .shop-toolbar {
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: "type filter . count";
+    gap: 1rem;
+    padding-block: 0.7rem;
+  }
+  .shop-toolbar-type {
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+}
+
+@media (width >= 64rem) {
+  /* Pinned under the fixed header while the grid scrolls; slides up with the
+     header when it hides, so there is never a gap above the bar. */
+  .shop-toolbar-wrap {
+    position: sticky;
+    top: var(--header-h);
+    transition: transform 650ms var(--ease-out-expo);
+  }
+  html:has(.site-header[data-hidden]) .shop-toolbar-wrap[data-stuck] {
+    transform: translate3d(0, calc(-1 * var(--header-h)), 0);
+  }
+  /* Full-bleed frosted backing, only while pinned. */
+  .shop-toolbar-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 50%;
+    z-index: -1;
+    width: 100vw;
+    margin-left: -50vw;
+    background: rgb(244 236 223 / 0.94);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
+    box-shadow: 0 1px 0 var(--rule);
+    opacity: 0;
+    transition: opacity 400ms ease;
+    pointer-events: none;
+  }
+  .shop-toolbar-wrap[data-stuck]::before {
+    opacity: 1;
+  }
+  .shop-toolbar {
+    transition: border-color 400ms ease;
+  }
+  .shop-toolbar-wrap[data-stuck] .shop-toolbar {
+    border-color: transparent;
+  }
+
+  /* Focus never lands under the pinned bar. */
+  html:has(.shop-toolbar-wrap) {
+    scroll-padding-top: calc(var(--header-h) + 5.5rem);
+  }
+}
+
+/* Desktop: everything in one row, facets as menus, sort as a select. */
+@media (width >= 80rem) {
+  .shop-toolbar {
+    grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+    grid-template-areas: "type facets . count sort";
+    gap: 1.25rem;
+  }
+  .shop-filter-btn {
+    display: none;
+  }
+  .shop-toolbar-facets {
+    display: flex;
+  }
+  .shop-sort {
+    display: inline-flex;
+  }
+  .shop-toolbar-count {
+    padding-right: 0.5rem;
+    border-right: 1px solid var(--rule);
+    height: 1.5rem;
+  }
+}
+
+/* ---- Type segments ------------------------------------------------------ */
+
+.seg {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--rule-strong);
+  background: rgb(251 247 240 / 0.55);
+}
+.seg-option {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2.375rem;
+  padding-inline: 0.95rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-small);
+  font-weight: 560;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 350ms var(--ease-out-quart);
+}
+.seg-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.seg-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--color-espresso);
+  opacity: 0;
+  transform: scale(0.55, 0.7);
+  transition:
+    opacity 260ms ease,
+    transform 560ms var(--ease-out-expo);
+}
+.seg-option:hover::before {
+  opacity: 0.07;
+  transform: none;
+}
+.seg-option:has(input:checked) {
+  color: var(--color-parchment);
+}
+.seg-option:has(input:checked)::before {
+  opacity: 1;
+  transform: none;
+}
+.seg-option:has(input:focus-visible) {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 2px;
+}
+.seg-count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  opacity: 0.72;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Facet menus (desktop) ------------------------------------------------ */
+
+.facet-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding-inline: 1rem 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: var(--text-small);
+  font-weight: 560;
+  transition:
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+.facet-trigger:hover,
+.facet-trigger[aria-expanded="true"] {
+  border-color: var(--rule-strong);
+  background: rgb(36 25 19 / 0.04);
+}
+.facet-trigger[data-muted] {
+  color: var(--color-bark);
+}
+.facet-trigger-chev {
+  transition: transform 450ms var(--ease-out-expo);
+}
+.facet-trigger[aria-expanded="true"] .facet-trigger-chev {
+  transform: rotate(180deg);
+}
+.facet-trigger-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  padding-inline: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-clay);
+  color: var(--color-linen);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  animation: chip-pop 420ms var(--ease-spring) both;
+}
+
+.facet-panel {
+  position: absolute;
+  top: calc(100% + 0.65rem);
+  left: 0;
+  z-index: 5;
+  width: max-content;
+  min-width: 19rem;
+  max-width: 26rem;
+  padding: 1.35rem 1.35rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--rule);
+  background: var(--color-linen);
+  box-shadow: var(--shadow-lift);
+  transform-origin: 1.5rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -0.5rem, 0) scale(0.97);
+  transition:
+    opacity 180ms ease,
+    transform 380ms var(--ease-out-expo),
+    visibility 0s linear 380ms;
+}
+.facet-panel-end {
+  left: auto;
+  right: 0;
+  transform-origin: calc(100% - 1.5rem) 0;
+}
+.facet-panel[data-open] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 220ms ease,
+    transform 520ms var(--ease-out-expo),
+    visibility 0s;
+}
+
+/* Checkbox chips (desktop menus and the drawer) */
+.facet-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.9rem 0.35rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--rule-strong);
+  font-size: var(--text-small);
+  font-weight: 560;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    transform 400ms var(--ease-out-expo);
+}
+.facet-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.facet-chip:hover {
+  border-color: var(--color-espresso);
+}
+.facet-chip:active {
+  transform: scale(0.97);
+}
+.facet-chip:has(input:checked) {
+  border-color: var(--color-espresso);
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+.facet-chip:has(input:focus-visible) {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+}
+.facet-chip:has(input:disabled) {
+  cursor: not-allowed;
+  border-style: dashed;
+  color: var(--color-bark);
+}
+.facet-chip:has(input:disabled):hover {
+  border-color: var(--rule-strong);
+}
+.facet-chip-box {
+  display: grid;
+  place-items: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.6;
+  transition: background-color var(--duration-fast) ease, opacity var(--duration-fast) ease;
+}
+.facet-chip-box svg {
+  transform: scale(0);
+  transition: transform 380ms var(--ease-spring);
+}
+.facet-chip:has(input:checked) .facet-chip-box {
+  background: var(--color-peach);
+  border-color: var(--color-peach);
+  color: var(--color-espresso);
+  opacity: 1;
+}
+.facet-chip:has(input:checked) .facet-chip-box svg {
+  transform: none;
+}
+.facet-chip-count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+.facet-roast {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+.facet-roast > span {
+  display: block;
+  width: 3px;
+  height: 0.7rem;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.25;
+}
+.facet-roast > span[data-on] {
+  opacity: 1;
+}
+
+/* ---- Active chips ---------------------------------------------------------- */
+
+.shop-chips {
+  padding-top: 1rem;
+}
+.active-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2.25rem;
+  padding-inline: 0.95rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-oat);
+  color: var(--color-espresso);
+  font-size: var(--text-small);
+  font-weight: 560;
+  animation: chip-pop 420ms var(--ease-spring) both;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+.active-chip:hover,
+.active-chip:focus-visible {
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+
+@keyframes chip-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Grid ----------------------------------------------------------------- */
+
+.shop-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--spacing-grid);
+  row-gap: clamp(2.75rem, 4.5vw, 4rem);
+  padding-top: clamp(2rem, 3.5vw, 3rem);
+}
+.shop-item {
+  min-width: 0;
+}
+.shop-leaving {
+  position: absolute;
+  margin: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.shop-tile {
+  grid-column: 1 / -1;
+  container-type: inline-size;
+}
+
+@media (width >= 40rem) {
+  .shop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (width >= 64rem) {
+  .shop-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  /* 3 columns: subscribe takes one cell beside two products, brew spans two. */
+  .shop-tile-subscribe {
+    grid-column: auto;
+  }
+  .shop-tile-brew {
+    grid-column: span 2;
+  }
+}
+@media (width >= 80rem) {
+  .shop-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .shop-tile-subscribe,
+  .shop-tile-brew {
+    grid-column: 1 / -1;
+  }
+}
+
+.shop-empty {
+  margin-top: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--rule-strong);
+  background: rgb(251 247 240 / 0.6);
+  animation: fade-up 500ms var(--ease-out-expo) 200ms both;
+}
+
+.shop-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-top: clamp(3.5rem, 6vw, 5rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ---- Tile (b): subscribe and save ----------------------------------------- */
+
+.sub-band {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: 2rem;
+  height: 100%;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-moss);
+  color: var(--color-parchment);
+}
+.sub-band > .texture {
+  z-index: -1;
+  border-radius: inherit;
+}
+.sub-band-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.sub-band-title {
+  margin-top: 1.25rem;
+  font-size: clamp(2rem, 2.6vw + 0.6rem, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 340;
+}
+.sub-band-title em {
+  display: block;
+  font-style: italic;
+  color: var(--color-parchment);
+}
+.sub-band-lead {
+  margin-top: 1rem;
+  max-width: 36ch;
+  font-size: var(--text-small);
+}
+.sub-band-cta-wide {
+  display: none;
+  margin-top: 1.75rem;
+}
+.sub-band-cta-narrow {
+  margin-top: 1.25rem;
+}
+.sub-band-bag {
+  display: none;
+}
+
+.sub-cal {
+  align-self: end;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule-inverse);
+}
+.sub-cal-row {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) 1.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sub-cal-track {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+}
+.sub-cal-dot {
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgb(244 236 223 / 0.45);
+}
+.sub-cal-dot[data-on] {
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--color-peach);
+  box-shadow: 0 0 0 3px rgb(239 164 122 / 0.18);
+}
+.sub-cal-total {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.motion-ok .sub-cal.reveal-in .sub-cal-dot[data-on] {
+  animation: chip-pop 600ms var(--ease-spring) both;
+  animation-delay: calc(200ms + var(--i, 0) * 28ms);
+}
+
+/* Wide band: copy · calendar · bag breaking the top edge */
+@container (width >= 46rem) {
+  .sub-band {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) 11rem;
+    align-items: end;
+    gap: clamp(2rem, 4cqi, 4rem);
+    padding: clamp(2rem, 4cqi, 3.5rem);
+  }
+  .sub-band-title em {
+    display: inline;
+  }
+  .sub-band-cta-wide {
+    display: block;
+  }
+  .sub-band-cta-narrow {
+    display: none;
+  }
+  .sub-cal {
+    align-self: end;
+    border-top: 0;
+    padding-top: 0;
+    padding-left: clamp(1.5rem, 3cqi, 2.5rem);
+    border-left: 1px solid var(--rule-inverse);
+  }
+  .sub-band-bag {
+    display: block;
+    align-self: end;
+    margin-top: -6rem;
+    margin-bottom: -1rem;
+    transform: rotate(6deg);
+    filter: drop-shadow(0 22px 26px rgb(20 13 9 / 0.4));
+  }
+}
+
+/* ---- Tile (a): brew it like we do ------------------------------------------ */
+
+.brew-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-oat);
+}
+.brew-media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+.brew-media-inner {
+  position: absolute;
+  inset: 0;
+}
+.brew-card {
+  position: relative;
+  padding: 1.5rem 1.35rem 1.6rem;
+  background: var(--color-linen);
+}
+.brew-title {
+  margin-top: 0.85rem;
+  font-size: clamp(1.9rem, 2vw + 0.9rem, 2.9rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 340;
+}
+.brew-title em {
+  font-style: italic;
+  color: var(--color-clay);
+}
+.brew-recipe {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem 1.25rem;
+  margin-block: 1.35rem 1.25rem;
+  padding-block: 1rem;
+  border-block: 1px solid var(--rule);
+}
+.brew-recipe dt {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.brew-recipe dd {
+  margin-top: 0.2rem;
+  font-size: var(--text-small);
+  font-weight: 560;
+  line-height: 1.3;
+}
+.brew-lead {
+  margin-bottom: 1.35rem;
+  font-size: var(--text-small);
+  color: var(--color-bark);
+}
+
+@container (width >= 36rem) {
+  .brew-tile {
+    display: block;
+    min-height: clamp(27rem, 40cqi, 36rem);
+  }
+  .brew-media {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+  }
+  .brew-card {
+    position: absolute;
+    top: 50%;
+    right: clamp(1rem, 3.5cqi, 3rem);
+    width: min(25rem, 46%);
+    padding: clamp(1.25rem, 2.5cqi, 2rem);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lift);
+    translate: 0 -50%;
+  }
+}
+/* Two-column span at lg is short: the paragraph makes way for the recipe. */
+@container (width >= 36rem) and (width < 52rem) {
+  .brew-lead {
+    display: none;
+  }
+  .brew-recipe {
+    margin-bottom: 1.35rem;
+  }
+}

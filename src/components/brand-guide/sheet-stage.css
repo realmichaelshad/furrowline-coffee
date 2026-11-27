@@ -1,0 +1,54 @@
+/* ==========================================================================
+   SheetStage: scale a fixed-size composition to the space it has (CSS only).
+   --avail is the width the stage may use, written in viewport units (the
+   page gutters and grid columns are viewport-based too). The default is the
+   page width inside the gutters; a narrower parent column overrides it.
+   Viewport units rather than container units on purpose: container units
+   inside a transform are re-resolved unreliably by Chromium in some repaint
+   paths (full-page captures after a reduced-motion switch drew the sheets at
+   a fraction of their size).
+   ========================================================================== */
+
+.sheet-frame {
+  --avail: calc(100vw - 2 * var(--spacing-gutter));
+  --stage-w: min(var(--sheet-max), var(--avail));
+}
+
+.sheet-stage {
+  position: relative;
+  width: var(--stage-w);
+  margin-inline: auto;
+  aspect-ratio: var(--sheet-ratio);
+}
+
+.sheet-scale {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--sheet-w);
+  transform-origin: 0 0;
+  /* --stage-w / --sheet-w as a plain number (below or above 1). */
+  transform: scale(tan(atan2(var(--stage-w), var(--sheet-w))));
+}
+
+/* The 1280 px sheets: room for them plus a 16 px margin each side means
+   1:1 with no transform at all (crisp text, exact element screenshots). */
+@media (width >= 82rem) {
+  .sheet-frame[data-fit="page"] {
+    --stage-w: var(--sheet-w);
+  }
+  .sheet-frame[data-fit="page"] .sheet-scale {
+    transform: none;
+  }
+}
+
+/* <ContourMask>: a contour texture drawn in currentColor. */
+.contour-mask {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  background-color: currentColor;
+  -webkit-mask: var(--mask) var(--mask-pos) / var(--mask-size) no-repeat;
+  mask: var(--mask) var(--mask-pos) / var(--mask-size) no-repeat;
+}

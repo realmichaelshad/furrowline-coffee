@@ -1,0 +1,823 @@
+/* ==========================================================================
+   Wholesale. Tokens come from globals.css (@theme static).
+   ========================================================================== */
+
+/* ---- Hero ------------------------------------------------------------------------
+   Phones and tablets: a dark card, the photo on top with the headline rising
+   over its foot, the intro paragraph and buttons on espresso below (a modest
+   image for LCP). Desktop: the photo fills a frame under the header and
+   everything sits over its dark left side. */
+
+.ws-hero {
+  --ws-pad: clamp(0.5rem, 0.9vw, 0.875rem);
+  --ws-radius: clamp(14px, 1.5vw, 24px);
+  position: relative;
+  padding: var(--header-h) var(--ws-pad) 0;
+}
+
+.ws-hero-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--ws-radius);
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+  isolation: isolate;
+  animation: ws-mask 1500ms var(--ease-out-expo) both;
+}
+@keyframes ws-mask {
+  from {
+    clip-path: inset(5% 4% 5% 4% round 40px);
+  }
+  to {
+    clip-path: inset(0 round var(--ws-radius));
+  }
+}
+
+.ws-hero-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: #6f4e34;
+}
+.ws-hero-zoom {
+  animation: ws-zoom 2000ms var(--ease-out-expo) both;
+}
+@keyframes ws-zoom {
+  from {
+    transform: scale(1.15);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Melts the photo's foot into the espresso card under the headline. */
+.ws-hero-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(36 25 19 / 0) 45%, rgb(36 25 19 / 0.72) 78%, var(--color-espresso) 99%);
+}
+
+.ws-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: none;
+  margin-top: -7.5rem;
+  padding-bottom: 2rem;
+}
+
+.ws-hero-title {
+  font-size: clamp(3.3rem, min(8.6vw, 22svh - 4rem), 9.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 330;
+  color: var(--color-parchment);
+}
+.ws-hero-title em {
+  font-style: italic;
+  font-weight: 380;
+  letter-spacing: -0.02em;
+  padding-right: 0.05em;
+  color: var(--color-peach);
+}
+
+.ws-hero-lead {
+  /* The italic headline's descenders hang below its 0.9 line box: keep clear of them. */
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
+  max-width: 42ch;
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: rgb(244 236 223 / 0.9);
+}
+
+.ws-hero-card {
+  display: none;
+}
+
+@media (width >= 40rem) {
+  .ws-hero-media {
+    aspect-ratio: 16 / 10;
+  }
+  .ws-hero-copy {
+    margin-top: -9rem;
+    padding-bottom: 2.75rem;
+  }
+}
+
+@media (width >= 64rem) {
+  .ws-hero-frame {
+    display: block;
+    height: clamp(38rem, calc(100svh - var(--header-h) - var(--ws-pad)), 58rem);
+  }
+  .ws-hero-media {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+  }
+  .ws-hero-scrim {
+    background:
+      linear-gradient(90deg, rgb(20 13 9 / 0.45) 0%, rgb(20 13 9 / 0.15) 40%, rgb(20 13 9 / 0) 60%),
+      linear-gradient(0deg, rgb(20 13 9 / 0.62) 0%, rgb(20 13 9 / 0) 48%);
+  }
+  .ws-hero-copy {
+    position: absolute;
+    inset: auto 0 0 0;
+    margin: 0;
+    padding-bottom: clamp(2rem, 6vh, 3.75rem);
+  }
+
+  .ws-hero-card {
+    position: absolute;
+    z-index: 2;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1.15rem 0.8rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgb(244 236 223 / 0.18);
+    background: rgb(36 25 19 / 0.5);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .ws-hero-card-dot {
+    position: relative;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--color-peach);
+  }
+  .motion-ok .ws-hero-card-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--color-peach);
+    animation: ws-ping 2.4s var(--ease-out-quart) infinite;
+  }
+}
+
+@keyframes ws-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* ---- Offer --------------------------------------------------------------------------- */
+
+.ws-offer {
+  display: grid;
+  gap: 2.75rem var(--spacing-grid);
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+.ws-offer-item {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule-strong);
+}
+.ws-offer-icon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--rule-strong);
+  color: var(--color-clay);
+}
+.ws-offer-meta {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: var(--color-clay);
+}
+@media (width >= 40rem) {
+  .ws-offer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (width >= 64rem) {
+  .ws-offer {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ws-offer-item {
+    padding-right: 1rem;
+  }
+}
+
+/* ---- How it works ---------------------------------------------------------------------- */
+
+.ws-how {
+  background: var(--color-oat);
+}
+.ws-how-photo {
+  position: relative;
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+}
+.ws-how-frame {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+.ws-how-caption {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  padding: 0.65rem 1rem 0.7rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(244 236 223 / 0.18);
+  /* Dark enough that the caption text passes AA even over the light page tone behind the photo. */
+  background: rgb(36 25 19 / 0.8);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+@media (width >= 48rem) {
+  .ws-how-intro {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+}
+
+.ws-steps {
+  position: relative;
+}
+/* A dashed furrow with a clay fill that the scroll draws down it. */
+.ws-steps-line {
+  position: absolute;
+  top: 1.5rem;
+  bottom: 0;
+  left: calc(1.5rem - 1px);
+  width: 2px;
+}
+.ws-steps-track,
+.ws-steps-fill {
+  position: absolute;
+  inset: 0;
+}
+.ws-steps-track {
+  left: 0.5px;
+  width: 1px;
+  background: repeating-linear-gradient(180deg, var(--rule-strong) 0 6px, transparent 6px 12px);
+}
+.ws-steps-fill {
+  background: var(--color-clay);
+  transform-origin: 50% 0;
+}
+.ws-steps-list {
+  display: grid;
+  gap: clamp(3rem, 6vw, 4.75rem);
+}
+.ws-step {
+  position: relative;
+  padding-left: 4.75rem;
+}
+.ws-step > .eyebrow {
+  padding-top: 0.95rem;
+}
+.ws-step-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--color-clay);
+  color: var(--color-linen);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  transition:
+    background-color var(--duration-base) ease,
+    color var(--duration-base) ease,
+    box-shadow var(--duration-base) ease,
+    transform 500ms var(--ease-spring);
+}
+.ws-step[data-dim] .ws-step-marker {
+  background: var(--color-oat);
+  color: var(--color-bark);
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+  transform: scale(0.86);
+}
+.ws-step-title {
+  margin-top: 0.75rem;
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 340;
+}
+
+/* ---- Pricing ------------------------------------------------------------------------------ */
+
+.ws-pricing {
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+.ws-table {
+  display: none;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ws-table-caption {
+  caption-side: top;
+  padding-bottom: 1.5rem;
+  text-align: left;
+}
+.ws-table-caption .badge {
+  margin-left: 1rem;
+  vertical-align: 0.35em;
+}
+.ws-table th,
+.ws-table td {
+  padding: 1.6rem 1.25rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--rule);
+}
+.ws-table thead th {
+  padding-top: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.ws-table th:first-child,
+.ws-table td:first-child {
+  padding-left: 0;
+}
+.ws-table thead th:first-child {
+  width: 34%;
+}
+.ws-table tbody th {
+  font-weight: 400;
+}
+.ws-table tr[data-featured] > * {
+  background: var(--color-linen);
+  border-bottom-color: transparent;
+}
+/* The highlight bleeds 1.5rem past the table's left edge (a shadow under the first cell), so the row's
+   text keeps the same left edge as every other row. */
+.ws-table tr[data-featured] > :first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  box-shadow: -1.5rem 0 0 var(--color-linen);
+}
+.ws-table tr[data-featured] > :last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.ws-tier-label {
+  display: block;
+  font-size: var(--text-h3);
+  line-height: 1.15;
+}
+.ws-tier-note {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--color-moss);
+}
+.ws-price {
+  white-space: nowrap;
+}
+.ws-price-value {
+  font-size: clamp(1.75rem, 2.7vw, 2.625rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-weight: 340;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ws-price-unit {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-bark);
+}
+.ws-visits {
+  font-size: var(--text-small);
+  font-weight: 560;
+}
+
+.ws-tiers {
+  display: grid;
+  gap: 0.85rem;
+}
+.ws-tier {
+  padding: 1.4rem 1.25rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--rule-strong);
+}
+.ws-tier[data-featured] {
+  border-color: transparent;
+  background: var(--color-linen);
+  box-shadow: var(--shadow-soft);
+}
+.ws-tier-rows {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.1rem;
+}
+.ws-tier-rows > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--rule);
+}
+.ws-tier-rows dt {
+  font-size: var(--text-small);
+  color: var(--color-bark);
+}
+.ws-tier-rows .ws-price-value {
+  font-size: 1.625rem;
+}
+
+@media (width >= 48rem) {
+  .ws-table {
+    display: table;
+  }
+  .ws-tiers {
+    display: none;
+  }
+}
+
+.ws-pricing-notes {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 64ch;
+  margin-top: 2rem;
+}
+
+/* ---- Voices ----------------------------------------------------------------------------------- */
+
+.ws-voices {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+.ws-voice {
+  position: relative;
+  margin: 0;
+}
+.ws-voice-mark {
+  display: block;
+  height: 3.25rem;
+  font-family: var(--font-display);
+  font-size: 6.5rem;
+  font-style: italic;
+  line-height: 0.85;
+  color: var(--color-peach);
+}
+.ws-voice-quote {
+  font-size: clamp(1.625rem, 2.6vw, 2.375rem);
+  line-height: 1.17;
+  letter-spacing: -0.015em;
+  font-style: italic;
+  font-weight: 330;
+  color: var(--color-parchment);
+}
+.ws-voice-initials {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-peach);
+  color: var(--color-espresso);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+}
+.ws-stats {
+  display: grid;
+  gap: 2rem var(--spacing-grid);
+  margin-top: clamp(4rem, 8vw, 6.5rem);
+}
+.ws-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule-inverse);
+}
+.ws-stat-value {
+  font-size: clamp(3.25rem, 6.5vw, 6.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 320;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ws-stat-unit {
+  font-size: 0.34em;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--color-peach);
+}
+@media (width >= 48rem) {
+  .ws-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---- Inquiry ------------------------------------------------------------------------------------ */
+
+.ws-inquiry {
+  display: grid;
+  gap: 3rem;
+  margin-top: var(--spacing-section-sm);
+  padding: clamp(1.25rem, 4vw, 4rem);
+  border-radius: var(--radius-xl);
+  background: var(--color-oat);
+}
+@media (width >= 64rem) {
+  .ws-inquiry {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+  .ws-inquiry-intro {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+    align-self: start;
+  }
+}
+#inquiry-title:focus {
+  outline: none;
+}
+#inquiry-title:focus-visible {
+  outline: 2px solid var(--color-clay-deep);
+  outline-offset: 6px;
+}
+
+.ws-next {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  max-width: 40ch;
+}
+.ws-next li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+.ws-next-index {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-clay-deep);
+}
+
+.ws-form {
+  display: grid;
+  gap: 2rem;
+}
+.ws-group {
+  display: grid;
+  gap: 1.35rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule-strong);
+}
+.ws-group-title {
+  display: flex;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-bark);
+}
+.ws-group-title > span {
+  color: var(--color-clay-deep);
+}
+.ws-grid {
+  display: grid;
+  gap: 1.35rem var(--spacing-grid);
+}
+@media (width >= 40rem) {
+  .ws-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ws-span-2 {
+    grid-column: 1 / -1;
+  }
+}
+
+.ws-pills {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+@media (width >= 48rem) {
+  .ws-pills {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.ws-pill {
+  background: var(--color-linen);
+}
+fieldset[data-invalid] .ws-pill:not(:has(input:checked)) {
+  border-color: var(--color-error);
+}
+
+.ws-coffees {
+  display: grid;
+  gap: 0.5rem;
+}
+@media (width >= 40rem) {
+  .ws-coffees {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.ws-coffee {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.55rem 0.9rem 0.55rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--rule-strong);
+  background: var(--color-linen);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+.ws-coffee input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.ws-coffee:hover {
+  border-color: var(--color-espresso);
+}
+.ws-coffee:has(input:checked) {
+  border-color: var(--color-espresso);
+  box-shadow: inset 0 0 0 1px var(--color-espresso);
+}
+.ws-coffee:has(input:focus-visible) {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+}
+.ws-coffee-art {
+  display: block;
+  flex-shrink: 0;
+  width: 2.6rem;
+  transition: transform 600ms var(--ease-out-expo);
+}
+.ws-coffee:hover .ws-coffee-art,
+.ws-coffee:has(input:checked) .ws-coffee-art {
+  transform: rotate(-6deg) translateY(-2px);
+}
+.ws-coffee-check {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: auto;
+  border-radius: 4px;
+  border: 1.5px solid var(--rule-strong);
+  color: transparent;
+  transition:
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+.ws-coffee:has(input:checked) .ws-coffee-check {
+  border-color: var(--color-espresso);
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+
+.ws-message {
+  position: relative;
+}
+.ws-count {
+  position: absolute;
+  top: 0.15rem;
+  right: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--color-bark);
+  font-variant-numeric: tabular-nums;
+}
+.ws-count-over {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.ws-consent {
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-linen);
+}
+
+.ws-submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.ws-summary {
+  padding: 1.1rem 1.25rem 1.2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(154 43 31 / 0.4);
+  background: var(--color-linen);
+  color: var(--color-error);
+  animation: fade-up 360ms var(--ease-out-quart) both;
+}
+.ws-summary ul {
+  padding-left: 1.75rem;
+  list-style: disc;
+}
+.ws-summary-link {
+  font-size: var(--text-small);
+  color: var(--color-espresso);
+  text-decoration: underline;
+  text-decoration-color: rgb(154 43 31 / 0.5);
+  text-underline-offset: 3px;
+}
+.ws-summary-link:hover {
+  text-decoration-color: currentColor;
+}
+
+.ws-success {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-linen);
+  box-shadow: var(--shadow-soft);
+  animation: fade-up 560ms var(--ease-out-expo) both;
+}
+.ws-success:focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 4px;
+}
+.ws-sent {
+  display: grid;
+  gap: 1rem 2rem;
+  margin-top: 2rem;
+}
+.ws-sent > div {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+.ws-sent dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.ws-sent dd {
+  margin-top: 0.35rem;
+  font-size: var(--text-small);
+  font-weight: 560;
+}
+@media (width >= 40rem) {
+  .ws-sent {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ws-sent-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+.ws-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2.5rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.ws-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 560;
+}
+.ws-contact-link .link-sweep {
+  background-size: 100% 1px;
+  background-position: 0% 100%;
+}
+.ws-contact-link:hover .link-sweep {
+  animation: link-resweep 600ms var(--ease-out-quart);
+}

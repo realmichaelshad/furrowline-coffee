@@ -1,0 +1,289 @@
+/* ==========================================================================
+   Signature showcase. Three layouts from one markup:
+   1. Base (phones, tablets, touch): native scroll-snap carousel of cards.
+   2. Desktop with a fine pointer, static: full-height panels stacked
+      (reduced motion, before JS, and showcase "linear" captures).
+   3. [data-pinned] (set by ShowcaseScene): a horizontal track of 100vw
+      panels that GSAP slides while the section is pinned.
+   ========================================================================== */
+
+.showcase {
+  position: relative;
+}
+
+.showcase-viewport {
+  position: relative;
+}
+
+.showcase-track {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--spacing-gutter);
+  padding-inline: var(--spacing-gutter);
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+}
+.showcase-track::-webkit-scrollbar {
+  display: none;
+}
+
+.showcase-panel {
+  position: relative;
+  flex: 0 0 min(86vw, 27rem);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--radius-lg);
+  background: var(--stage);
+  color: var(--ink);
+  padding: 1rem 1.25rem 1.75rem;
+}
+
+.showcase-contours {
+  z-index: -1;
+  color: var(--ink);
+  opacity: 0.13;
+}
+
+.showcase-visual {
+  position: relative;
+  padding: 0.25rem 0 2.75rem;
+}
+
+.showcase-arch {
+  position: relative;
+  aspect-ratio: 1 / 1.08;
+  overflow: hidden;
+  border-radius: 50% 50% var(--radius-sm) var(--radius-sm) / 46% 46% var(--radius-sm) var(--radius-sm);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+.showcase-bag {
+  position: absolute;
+  left: -0.25rem;
+  bottom: 0.25rem;
+  width: 42%;
+  transform: rotate(-8deg);
+  transform-origin: 50% 80%;
+  filter: drop-shadow(0 18px 22px rgb(20 12 8 / 0.38));
+}
+
+.showcase-copy {
+  position: relative;
+  margin-top: 0.75rem;
+}
+
+.showcase-name {
+  margin-top: 1rem;
+  font-size: clamp(2.75rem, 11vw, 3.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 340;
+}
+.showcase-name em {
+  display: block;
+  font-style: italic;
+  font-weight: 380;
+}
+
+.showcase-notes {
+  margin-top: 1rem;
+  max-width: 24ch;
+  font-size: clamp(1.2rem, 1.7vw, 1.75rem);
+  line-height: 1.25;
+  font-style: italic;
+  font-weight: 380;
+}
+
+.showcase-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 28%, transparent);
+}
+.showcase-meta dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+.showcase-meta dd {
+  margin-top: 0.3rem;
+  font-size: var(--text-small);
+  font-weight: 560;
+  line-height: 1.3;
+}
+
+.showcase-link {
+  color: var(--ink);
+  font-size: var(--text-small);
+}
+
+.showcase-nav {
+  display: none;
+}
+
+/* Carousel layout only (touch / narrow): off-screen cards skip rendering, so
+   their photos and bags aren't fetched during page load. Never in the desktop
+   layouts, where the pinned scene needs real layout. */
+@media (width < 64rem), (hover: none), (pointer: coarse) {
+  .showcase-panel {
+    content-visibility: auto;
+    contain-intrinsic-size: auto min(86vw, 27rem) auto 44rem;
+  }
+}
+
+/* ---- Desktop, fine pointer: stacked full-height panels ------------------ */
+@media (width >= 64rem) and (hover: hover) and (pointer: fine) {
+  .showcase-track {
+    display: block;
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+  }
+
+  .showcase-panel {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-grid);
+    align-items: center;
+    min-height: max(100vh, 46rem);
+    padding: 0 var(--spacing-gutter);
+    border-radius: 0;
+  }
+
+  .showcase-copy {
+    grid-column: 1 / span 5;
+    grid-row: 1;
+    margin: 0;
+    padding-block: 5rem;
+  }
+
+  .showcase-name {
+    font-size: clamp(4.5rem, 7.4vw, 8rem);
+  }
+
+  .showcase-visual {
+    grid-column: 6 / span 7;
+    grid-row: 1;
+    align-self: stretch;
+    min-height: max(100vh, 46rem);
+    padding: 0;
+  }
+
+  .showcase-arch {
+    position: absolute;
+    top: 11%;
+    right: 3%;
+    height: 78%;
+    width: auto;
+    aspect-ratio: 0.78;
+    border-radius: 50% 50% var(--radius-md) var(--radius-md) / 39% 39% var(--radius-md) var(--radius-md);
+  }
+
+  .showcase-bag {
+    left: 6%;
+    bottom: 9%;
+    width: clamp(15rem, 21vw, 23rem);
+    filter: drop-shadow(0 34px 38px rgb(20 12 8 / 0.42));
+  }
+
+  .showcase-meta {
+    max-width: 30rem;
+  }
+}
+
+/* ---- Pinned horizontal mode -------------------------------------------- */
+.showcase-viewport[data-pinned] {
+  height: 100vh;
+  overflow: clip;
+}
+.showcase-viewport[data-pinned] .showcase-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  will-change: transform;
+}
+.showcase-viewport[data-pinned] .showcase-panel {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  min-height: 0;
+}
+.showcase-viewport[data-pinned] .showcase-visual {
+  min-height: 100vh;
+}
+.showcase-viewport[data-pinned] .showcase-bag {
+  transform: none;
+}
+.showcase-viewport[data-pinned] .showcase-nav {
+  position: absolute;
+  top: 1.5rem;
+  right: var(--spacing-gutter);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem 0.6rem 1.1rem;
+  border-radius: var(--radius-pill);
+  background: rgb(36 25 19 / 0.78);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--color-parchment);
+  /* Same slide as the header, so the two never overlap. */
+  transition: transform 650ms var(--ease-out-expo);
+}
+html[data-header="shown"] .showcase-viewport[data-pinned] .showcase-nav {
+  transform: translate3d(0, var(--header-h), 0);
+}
+
+.showcase-progress {
+  position: relative;
+  display: block;
+  width: 5rem;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(244 236 223 / 0.25);
+}
+.showcase-progress > span {
+  position: absolute;
+  inset: 0;
+  background: var(--color-peach);
+  transform: scaleX(0.25);
+  transform-origin: left center;
+}
+
+.showcase-goto {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding-inline: 0.5rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-micro);
+  font-weight: 560;
+  color: rgb(244 236 223 / 0.62);
+  transition:
+    color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
+}
+.showcase-goto:hover {
+  color: var(--color-parchment);
+}
+.showcase-goto[aria-current] {
+  color: var(--color-espresso);
+  background: var(--color-parchment);
+}
+.showcase-goto:focus-visible {
+  outline-color: var(--color-peach);
+}
+.showcase-goto {
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+}

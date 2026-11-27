@@ -1,0 +1,95 @@
+{
+  "core": [
+    {
+      "name": "Espresso",
+      "hex": "#241913",
+      "role": "Ink: text, dark surfaces, footer"
+    },
+    {
+      "name": "Loam",
+      "hex": "#3a2a20",
+      "role": "Deep surface"
+    },
+    {
+      "name": "Bark",
+      "hex": "#5c4a3c",
+      "role": "Secondary text on light"
+    },
+    {
+      "name": "Parchment",
+      "hex": "#f4ecdf",
+      "role": "Page background"
+    },
+    {
+      "name": "Linen",
+      "hex": "#fbf7f0",
+      "role": "Raised surfaces: cards, drawer, inputs"
+    },
+    {
+      "name": "Oat",
+      "hex": "#e9ddc8",
+      "role": "Alternate section background"
+    },
+    {
+      "name": "Clay",
+      "hex": "#a4472a",
+      "role": "Primary accent, calls to action, the mark"
+    },
+    {
+      "name": "Clay deep",
+      "hex": "#8e3a20",
+      "role": "Hover and pressed clay"
+    },
+    {
+      "name": "Peach",
+      "hex": "#efa47a",
+      "role": "Accent on dark surfaces"
+    },
+    {
+      "name": "Moss",
+      "hex": "#4b5a32",
+      "role": "Secondary accent, success"
+    },
+    {
+      "name": "Ochre",
+      "hex": "#c88a2e",
+      "role": "Highlights, badges"
+    },
+    {
+      "name": "Mist",
+      "hex": "#c9b9a3",
+      "role": "Secondary text on dark"
+    }
+  ],
+  "coffees": [
+    {
+      "name": "First Light",
+      "hex": "#f0b48f",
+      "stage": "#efc3a4",
+      "ink": "#241913"
+    },
+    {
+      "name": "Honey Ridge",
+      "hex": "#b4412f",
+      "stage": "#9e3a2a",
+      "ink": "#fbf1e4"
+    },
+    {
+      "name": "Highland Almanac",
+      "hex": "#db8a35",
+      "stage": "#d9963f",
+      "ink": "#241913"
+    },
+    {
+      "name": "Deep Field",
+      "hex": "#3b1c22",
+      "stage": "#2b1418",
+      "ink": "#f4ecdf"
+    }
+  ],
+  "type": {
+    "display": "Fraunces (Google Fonts, OFL), optical size on, weight 330-420, SOFT 50",
+    "text": "Instrument Sans (Google Fonts, OFL), weight 400-600",
+    "label": "DM Mono 500 (Google Fonts, OFL), uppercase, +0.14em tracking"
+  }
+}

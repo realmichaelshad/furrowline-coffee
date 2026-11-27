@@ -1,0 +1,902 @@
+/* ==========================================================================
+   Our Story. Tokens come from globals.css (@theme static).
+   ========================================================================== */
+
+/* ---- Opening ----------------------------------------------------------------- */
+
+/* Slightly under display-l so "A seed warehouse," holds one line beside the aside. */
+.story-title {
+  font-size: clamp(2.875rem, 7.1vw, 7.25rem);
+}
+
+.story-note blockquote p {
+  max-width: 40ch;
+}
+
+.story-hero {
+  position: relative;
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+.story-hero-frame {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  isolation: isolate;
+}
+@media (width >= 40rem) {
+  .story-hero-frame {
+    aspect-ratio: 3 / 2;
+  }
+}
+@media (width >= 64rem) {
+  .story-hero-frame {
+    aspect-ratio: 2.05 / 1;
+  }
+}
+
+/* The observed clip-reveal wrapper never carries its own clip-path. */
+.story-hero-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+/* Taller than the frame so the parallax drift never shows an edge. */
+.story-hero-media {
+  position: absolute;
+  inset: -7% 0;
+}
+
+/* The frame's top is on screen at load at every width, so it opens with a CSS
+   mask (visible from frame one) while the photo settles from a push-in.
+   Never inside a media query: a query that flips during a full-page capture
+   would restart the animation. */
+.story-hero-frame {
+  animation: story-mask 1500ms var(--ease-out-expo) 160ms both;
+}
+.story-hero-zoom {
+  animation: story-zoom 2000ms var(--ease-out-expo) 160ms both;
+}
+@keyframes story-mask {
+  from {
+    clip-path: inset(6% 4.5% 6% 4.5% round 40px);
+  }
+  to {
+    clip-path: inset(0 round var(--radius-lg));
+  }
+}
+@keyframes story-zoom {
+  from {
+    transform: scale(1.14);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.story-hero-caption {
+  position: absolute;
+  z-index: 2;
+  left: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  padding: 0.7rem 1.05rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(244 236 223 / 0.18);
+  /* Dark enough that the caption text passes AA even over the light page tone behind the photo. */
+  background: rgb(36 25 19 / 0.8);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.story-hero-stamp {
+  position: absolute;
+  z-index: 3;
+  top: -2.5rem;
+  right: 0.75rem;
+  width: 6.5rem;
+  height: 6.5rem;
+  filter: drop-shadow(0 14px 22px rgb(36 25 19 / 0.28));
+}
+@media (width >= 48rem) {
+  .story-hero-stamp {
+    top: -4.25rem;
+    right: 3.5rem;
+    width: 9.5rem;
+    height: 9.5rem;
+  }
+}
+
+/* Thin strip of numbers. Label first in the DOM (dt), value shown on top. */
+.story-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--rule-strong);
+}
+.story-strip-item {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1.25rem 1rem 1.35rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.story-strip-item:nth-child(even) {
+  padding-left: 1rem;
+  border-left: 1px solid var(--rule);
+}
+.story-strip-value {
+  font-size: clamp(2.375rem, 4.6vw, 4.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  font-weight: 330;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.story-strip-unit {
+  font-size: 0.4em;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--color-clay);
+}
+@media (width >= 48rem) {
+  .story-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-bottom: 1px solid var(--rule);
+  }
+  .story-strip-item,
+  .story-strip-item:nth-child(even) {
+    padding: 1.6rem 1.5rem 1.7rem;
+    border-bottom: 0;
+    border-left: 1px solid var(--rule);
+  }
+  .story-strip-item:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* ---- Founder ----------------------------------------------------------------- */
+
+.story-founder {
+  position: relative;
+  margin: 0;
+}
+@media (width >= 48rem) {
+  .story-founder {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+  /* Full-page showcase captures have no scroll for the portrait to stick to: it sits beside the
+     middle of the story instead of leaving an empty column under it. */
+  html[data-showcase="linear"] .story-founder-col {
+    align-self: center;
+  }
+}
+.story-founder-frame {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+.story-founder-tag {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  padding: 0.8rem 1.15rem 0.85rem;
+  border-radius: var(--radius-md);
+  background: var(--color-linen);
+  box-shadow: var(--shadow-lift);
+}
+@media (width >= 48rem) {
+  .story-founder-tag {
+    left: auto;
+    right: -2.25rem;
+    bottom: 3.5rem;
+  }
+}
+
+.story-quote {
+  position: relative;
+  margin: clamp(2.5rem, 5vw, 3.75rem) 0 0;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--rule);
+}
+.story-quote-mark {
+  position: absolute;
+  top: -0.2rem;
+  left: -0.05em;
+  font-family: var(--font-display);
+  font-size: 7rem;
+  line-height: 1;
+  color: var(--color-clay);
+  font-style: italic;
+  pointer-events: none;
+}
+.story-quote blockquote {
+  padding-top: 2.75rem;
+}
+.story-quote blockquote p {
+  line-height: 1.12;
+  font-weight: 340;
+}
+
+.story-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-grid);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+.story-facts > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-strong);
+}
+.story-facts-value {
+  font-size: clamp(1.875rem, 3.2vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 340;
+  font-variant-numeric: lining-nums;
+}
+.story-facts-unit {
+  font-size: 0.45em;
+  font-style: italic;
+  letter-spacing: 0;
+  color: var(--color-clay);
+}
+
+/* ---- From farm to cup ----------------------------------------------------------- */
+
+.ftc-section {
+  position: relative;
+  background: linear-gradient(180deg, var(--color-parchment) 0%, var(--color-oat) 22%, var(--color-oat) 78%, var(--color-parchment) 100%);
+}
+
+.ftc {
+  margin-top: clamp(3rem, 7vw, 6rem);
+}
+
+.ftc-stage {
+  display: none;
+}
+
+.ftc-chapters {
+  display: grid;
+  gap: clamp(4.5rem, 10vw, 8rem);
+}
+
+.ftc-chapter {
+  display: grid;
+  gap: 2.25rem;
+}
+
+/* Inline photos (phones, tablets, touch, reduced motion, linear captures). */
+.ftc-inline {
+  position: relative;
+  padding-bottom: 2.75rem;
+}
+.ftc-inline-main {
+  width: 84%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+.ftc-inline-parallax {
+  scale: 1.08;
+}
+/* A parchment mat around the inset (no shadow: clip reveals clip shadows). */
+.ftc-inline-inset {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  padding: 6px;
+  border-radius: calc(var(--radius-md) + 6px);
+  background: var(--color-oat);
+}
+.ftc-inline-inset > * {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.ftc-number {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+}
+.ftc-number-digits {
+  font-size: clamp(3rem, 5.4vw, 4.75rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-style: italic;
+  font-weight: 320;
+  color: var(--color-clay-deep);
+}
+.ftc-title {
+  margin-top: 1.25rem;
+  font-size: var(--text-h1);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.ftc-title em {
+  font-style: italic;
+}
+
+.ftc-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem var(--spacing-grid);
+  margin-top: 2.25rem;
+  max-width: 34rem;
+}
+.ftc-facts > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule-strong);
+}
+.ftc-facts-value {
+  font-size: clamp(1.5rem, 2.3vw, 2.125rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 360;
+}
+
+/* Static two-column rows from md (alternating sides). */
+@media (width >= 48rem) {
+  .ftc-chapter {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-grid);
+    align-items: center;
+  }
+  .ftc-inline {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+  }
+  .ftc-text {
+    grid-column: 8 / span 5;
+    grid-row: 1;
+  }
+  .ftc-chapter:nth-child(even) .ftc-inline {
+    grid-column: 7 / span 6;
+  }
+  .ftc-chapter:nth-child(even) .ftc-text {
+    grid-column: 1 / span 5;
+  }
+}
+
+/* ---- Sticky mode (set by FarmToCupScene: desktop, fine pointer, motion) ------- */
+
+.ftc[data-sticky] {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--spacing-grid);
+  align-items: start;
+}
+.ftc[data-sticky] .ftc-stage {
+  position: sticky;
+  top: calc(var(--header-h) + 1.5rem);
+  display: block;
+  grid-column: 1 / span 7;
+  grid-row: 1;
+  height: calc(100vh - var(--header-h) - 3rem);
+  min-height: 30rem;
+}
+.ftc[data-sticky] .ftc-chapters {
+  grid-column: 8 / span 5;
+  grid-row: 1;
+  gap: 0;
+}
+.ftc[data-sticky] .ftc-chapter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 88vh;
+}
+.ftc[data-sticky] .ftc-inline {
+  display: none;
+}
+.ftc[data-sticky] .ftc-text {
+  padding-left: clamp(2.5rem, 4vw, 4rem);
+}
+
+/* The big frame takes six of the stage's seven columns; the rail sits on its right edge. */
+.ftc-frame {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc((100% * 6 - var(--spacing-grid)) / 7);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-loam);
+  isolation: isolate;
+  box-shadow: 0 50px 80px -50px rgb(36 25 19 / 0.55);
+}
+.ftc-shot,
+.ftc-shot-media {
+  position: absolute;
+  inset: 0;
+}
+
+.ftc-chip {
+  position: absolute;
+  z-index: 20;
+  top: 1.25rem;
+  left: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.2rem 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(244 236 223 / 0.2);
+  background: rgb(36 25 19 / 0.52);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--color-parchment);
+}
+.ftc-roll {
+  display: block;
+  overflow: hidden;
+}
+.ftc-roll-track {
+  display: block;
+}
+.ftc-roll-track > span {
+  display: block;
+}
+.ftc-chip-num {
+  height: 1em;
+  font-size: 3rem;
+  font-weight: 320;
+  letter-spacing: -0.04em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ftc-chip-num .ftc-roll-track > span {
+  height: 1em;
+  line-height: 1;
+}
+.ftc-chip-label {
+  height: 1.25em;
+  margin-top: 0.15rem;
+  font-size: 1.375rem;
+  font-style: italic;
+  font-weight: 380;
+}
+.ftc-chip-label .ftc-roll-track > span {
+  height: 1.25em;
+  line-height: 1.25;
+}
+
+/* The inset steps out of the frame's right edge, toward the rail, on an oat
+   mat. The mat stays put; only the photos inside it wipe (clip-path). */
+.ftc-insets {
+  position: absolute;
+  z-index: 10;
+  right: 2.25rem;
+  bottom: 2.75rem;
+  width: 30%;
+  aspect-ratio: 3 / 4;
+  border-radius: calc(var(--radius-md) + 6px);
+  background: var(--color-oat);
+  box-shadow: 0 30px 50px -28px rgb(36 25 19 / 0.5);
+}
+.ftc-inset {
+  position: absolute;
+  inset: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.ftc-inset-media {
+  position: absolute;
+  inset: 0;
+}
+
+/* A furrow for a progress line: track, a fill revealed by clip-path, a dot per chapter. */
+.ftc-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -10px;
+  width: 20px;
+}
+.ftc-rail-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+}
+.ftc-rail-track {
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+.ftc-rail-fill path {
+  stroke: var(--color-clay);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.ftc-rail-dot {
+  position: absolute;
+  left: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: -0.4rem 0 0 -0.4rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-clay);
+  background: var(--color-oat);
+  transition:
+    background-color var(--duration-base) ease,
+    transform 500ms var(--ease-spring);
+}
+.ftc-rail-dot[data-on] {
+  background: var(--color-clay);
+  transform: scale(1.2);
+}
+.ftc-rail-label {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 0.7rem);
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--color-bark);
+}
+.ftc-rail-end {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: 0 0 -0.225rem -0.225rem;
+  border-radius: 50%;
+  background: var(--color-bark);
+}
+
+/* ---- The farms -------------------------------------------------------------------- */
+
+.farm-list {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--rule-strong);
+}
+.farm-row {
+  display: grid;
+  grid-template-columns: 5.25rem minmax(0, 1fr);
+  column-gap: 1.25rem;
+  row-gap: 0.85rem;
+  align-items: start;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.farm-name,
+.farm-meta,
+.farm-note,
+.farm-link {
+  grid-column: 2;
+}
+.farm-arch {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1 / span 4;
+  display: block;
+  width: 100%;
+  aspect-ratio: 0.8;
+  overflow: hidden;
+  border-radius: 50% 50% var(--radius-sm) var(--radius-sm) / 39% 39% var(--radius-sm) var(--radius-sm);
+  background: var(--color-oat);
+}
+.farm-arch [data-photo] > div {
+  transition: transform 900ms var(--ease-out-expo);
+}
+.farm-row:hover .farm-arch [data-photo] > div {
+  transform: scale(1.07);
+}
+.farm-arch-drawn {
+  background: var(--arch-bg);
+}
+.farm-arch-contours {
+  color: var(--arch-ink);
+  opacity: 0.55;
+}
+.farm-arch-sun {
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  width: 26%;
+  aspect-ratio: 1;
+  margin-left: -13%;
+  border-radius: 50%;
+  background: var(--arch-ink);
+}
+.farm-title {
+  font-size: clamp(1.75rem, 2.7vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.farm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+}
+.farm-meta dd {
+  margin-top: 0.3rem;
+  font-size: var(--text-small);
+  font-weight: 560;
+}
+.farm-note {
+  max-width: 44ch;
+}
+
+@media (width >= 48rem) {
+  .farm-row {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    column-gap: 2rem;
+  }
+}
+
+@media (width >= 64rem) {
+  .farm-row {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-grid);
+    align-items: center;
+    padding: 1.5rem 0;
+  }
+  .farm-arch {
+    grid-column: 1 / span 1;
+    grid-row: 1;
+    max-width: 6.5rem;
+  }
+  .farm-name {
+    grid-column: 2 / span 3;
+    padding-left: 0.75rem;
+  }
+  .farm-meta {
+    grid-column: 5 / span 3;
+    flex-direction: column;
+  }
+  .farm-note {
+    grid-column: 8 / span 4;
+  }
+  .farm-link {
+    grid-column: 12 / span 1;
+    justify-self: end;
+  }
+}
+
+.buy-panel {
+  position: relative;
+  overflow: hidden;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  padding: clamp(1.75rem, 4.5vw, 4rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-oat);
+}
+.buy-item {
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--rule-strong);
+}
+.buy-index {
+  color: var(--color-clay-deep);
+  letter-spacing: 0.14em;
+}
+
+/* ---- What we won't do ---------------------------------------------------------------- */
+
+.story-values {
+  position: relative;
+  overflow: clip;
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+.story-value {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: clamp(1.75rem, 3.5vw, 2.5rem) 0 clamp(2rem, 4vw, 2.75rem);
+}
+.story-value:last-child {
+  padding-bottom: 0;
+}
+.story-value-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  overflow: hidden;
+}
+.story-value-rule > span {
+  display: block;
+  height: 100%;
+  background: rgb(244 236 223 / 0.28);
+}
+.story-value-index {
+  padding-top: 0.85rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  color: var(--color-peach);
+}
+.story-value-line {
+  font-size: clamp(1.875rem, 3.7vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 330;
+  text-wrap: balance;
+}
+@media (width >= 48rem) {
+  .story-values-intro {
+    position: sticky;
+    top: calc(var(--header-h) + 2.5rem);
+  }
+  .story-value {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+}
+
+/* ---- Ten years ----------------------------------------------------------------------- */
+
+.tl {
+  position: relative;
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+.tl-line {
+  position: absolute;
+  top: 0.6rem;
+  bottom: 0.5rem;
+  left: 5px;
+  width: 1px;
+  overflow: hidden;
+}
+.tl-line > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--rule-strong);
+}
+/* Vertical below lg: the rail draws from the top, slowly. */
+.motion-ok .tl-line.reveal-pending > span {
+  clip-path: inset(0 0 100% 0);
+}
+.motion-ok .tl-line.reveal-in > span {
+  transition-duration: 2200ms;
+  transition-timing-function: var(--ease-in-out-quart);
+}
+.tl-list {
+  display: grid;
+  gap: 2.5rem;
+  padding-left: 2.25rem;
+}
+.tl-item {
+  position: relative;
+}
+.tl-dot {
+  position: absolute;
+  top: 0.55rem;
+  left: -2.25rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-clay);
+  background: var(--color-parchment);
+}
+.tl-item:last-child .tl-dot {
+  background: var(--color-clay);
+}
+.tl-year {
+  font-size: clamp(2.5rem, 4vw, 3.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 320;
+  font-variant-numeric: lining-nums;
+}
+.tl-item h3 {
+  font-family: var(--font-sans);
+}
+
+@media (width >= 64rem) {
+  .tl-line {
+    top: 5px;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 1px;
+  }
+  .motion-ok .tl-line.reveal-pending > span {
+    clip-path: inset(0 100% 0 0);
+  }
+  .tl-list {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    column-gap: var(--spacing-grid);
+    row-gap: 0;
+    padding-left: 0;
+    padding-top: 2.5rem;
+  }
+  .tl-dot {
+    top: -2.5rem;
+    left: 0;
+  }
+  /* Year + title share one row across all six columns, so every body starts on the same line
+     even when a title wraps. */
+  .tl-item {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    align-content: start;
+    padding-right: 0.5rem;
+  }
+}
+
+/* ---- Closing --------------------------------------------------------------------------- */
+
+.story-cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+}
+.story-cta-shop {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.25rem;
+  background: var(--color-espresso);
+  color: var(--color-parchment);
+}
+.story-cta-bags {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.5vw, 1.25rem);
+  max-width: 36rem;
+}
+.story-cta-bag {
+  display: block;
+  border-radius: var(--radius-sm);
+}
+.story-cta-bag img {
+  transform: rotate(calc((var(--i, 0) - 1.5) * 3.5deg));
+  transform-origin: 50% 90%;
+  filter: drop-shadow(0 18px 18px rgb(0 0 0 / 0.38));
+  transition: transform 700ms var(--ease-out-expo);
+}
+.story-cta-bag:hover img,
+.story-cta-bag:focus-visible img {
+  transform: translate3d(0, -0.6rem, 0) rotate(0deg);
+}
+.story-cta-bag-name {
+  display: block;
+  margin-top: 0.85rem;
+  text-align: center;
+  font-size: var(--text-micro);
+  line-height: 1.25;
+  color: var(--color-mist);
+}
+
+.story-cta-visit {
+  display: grid;
+  align-content: space-between;
+  gap: 2rem;
+  background: var(--color-oat);
+}
+/* A wide doorway arch across the card: the shopfront fills the top, the invitation sits under it,
+   so the card is as composed as the dark one beside it. */
+.story-cta-arch {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.25;
+  overflow: hidden;
+  border-radius: 50% 50% var(--radius-md) var(--radius-md) / 62.5% 62.5% var(--radius-md) var(--radius-md);
+}
+.story-cta-arch > * {
+  position: absolute;
+  inset: 0;
+}

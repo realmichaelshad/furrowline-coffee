@@ -1,0 +1,453 @@
+/* ==========================================================================
+   Brand guide sheet: a fixed 1280 × 769 composition. Everything inside is
+   set in px on purpose (the sheet is scaled as a whole by SheetStage).
+   12 columns of 100.67 px inside 36 px margins; modules split by hairlines.
+   ========================================================================== */
+
+.guide-sheet {
+  position: relative;
+  display: grid;
+  grid-template-rows: 60px 352px 325px 32px;
+  width: 1280px;
+  height: 769px;
+  overflow: hidden;
+  padding: 0 36px;
+  background: var(--color-parchment);
+  color: var(--color-espresso);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* ---- Header and footer strips ----------------------------------------- */
+
+.guide-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid var(--color-espresso);
+}
+.guide-top-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 380;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.guide-top-title em {
+  color: var(--color-clay);
+}
+.guide-top-sep {
+  width: 28px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+.guide-top-brand,
+.guide-top-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.guide-top-meta {
+  display: flex;
+  gap: 8px;
+  color: var(--color-bark);
+}
+
+.guide-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.guide-foot-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-espresso);
+}
+
+/* ---- Grid ------------------------------------------------------------- */
+
+.guide-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.guide-row-1 {
+  border-bottom: 1px solid var(--rule-strong);
+}
+.guide-module {
+  min-width: 0;
+  padding: 18px 20px;
+  border-left: 1px solid var(--rule);
+}
+.guide-col-logo {
+  grid-column: span 7;
+  padding-left: 0;
+  border-left: 0;
+}
+.guide-col-colour {
+  grid-column: span 5;
+  padding-right: 0;
+}
+.guide-col-type {
+  grid-column: span 3;
+  padding-left: 0;
+  border-left: 0;
+}
+.guide-col-pack {
+  grid-column: span 4;
+}
+.guide-col-pattern {
+  grid-column: span 2;
+}
+.guide-col-voice {
+  grid-column: span 3;
+  padding-right: 0;
+}
+
+.guide-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  height: 14px;
+  margin-bottom: 14px;
+}
+.guide-head-title {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.guide-head-index {
+  color: var(--color-clay);
+}
+.guide-head-note {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+  white-space: nowrap;
+}
+
+/* ---- Tiles and labels -------------------------------------------------- */
+
+.guide-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+.guide-tile-linen {
+  background: var(--color-linen);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.guide-tile-dark {
+  flex: 1;
+  background: var(--color-espresso);
+  padding-bottom: 14px;
+}
+.guide-tile-clay {
+  flex: 1;
+  background: var(--color-clay);
+  padding-bottom: 14px;
+}
+.guide-tile-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.guide-tile-dark .guide-tile-label {
+  color: var(--color-mist);
+}
+.guide-tile-clay .guide-tile-label {
+  color: var(--color-linen);
+}
+.guide-dim {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+  white-space: nowrap;
+}
+
+/* ---- (01) Minimum sizes ------------------------------------------------- */
+
+.guide-minsizes {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 82px;
+  padding: 0 4px 2px;
+}
+.guide-minsizes-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.guide-dimline {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 11px;
+  border-inline: 1px solid var(--color-clay);
+}
+.guide-dimline::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: var(--color-clay);
+}
+.guide-dimline > span {
+  position: relative;
+  padding: 0 5px;
+  background: var(--color-parchment);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-clay-deep);
+}
+
+/* ---- (02) Colour ----------------------------------------------------- */
+
+.guide-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.guide-swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 128px;
+  padding: 10px 11px 11px;
+  border-radius: var(--radius-sm);
+}
+.guide-swatch-name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.guide-swatch-hex {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+}
+.guide-swatch-role {
+  margin-top: 2px;
+  font-size: 10.5px;
+  line-height: 1.3;
+}
+.guide-swatch-ratio {
+  margin-top: 7px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.guide-chips,
+.guide-coffees {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.guide-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 31px;
+  padding: 0 9px;
+  border-radius: 4px;
+}
+.guide-chip-name {
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.guide-chip-hex {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.guide-sublabel {
+  margin-top: 1px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+}
+.guide-coffee {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 54px;
+  padding: 7px 9px 8px;
+  border-radius: 4px;
+}
+.guide-coffee-index,
+.guide-coffee-hex {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+.guide-coffee-name {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  white-space: nowrap;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+/* ---- (03) Type ------------------------------------------------------- */
+
+.guide-aa {
+  font-family: var(--font-display);
+  font-size: 118px;
+  font-weight: 360;
+  line-height: 0.8;
+  letter-spacing: -0.045em;
+  padding-top: 6px;
+}
+.guide-aa em {
+  margin-left: 8px;
+  color: var(--color-clay);
+}
+.guide-type-list {
+  margin-top: 22px;
+}
+.guide-type-list > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 0 10px;
+  border-top: 1px solid var(--rule);
+}
+.guide-type-list dd {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-bark);
+  white-space: nowrap;
+}
+
+/* ---- (04) Packaging -------------------------------------------------- */
+
+.guide-pack {
+  position: relative;
+  height: 257px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-oat);
+}
+.guide-pack-contours {
+  color: rgb(164 71 42 / 0.2);
+}
+.guide-pack-fan {
+  position: absolute;
+  inset: 50px 0 auto;
+  height: 160px;
+}
+.guide-pack-bag {
+  position: absolute;
+  top: 0;
+  height: 160px;
+  transform-origin: 50% 92%;
+}
+
+/* ---- (05) Pattern ---------------------------------------------------- */
+
+.guide-patterns {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 257px;
+}
+.guide-pattern {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+.guide-pattern-label {
+  position: absolute;
+  left: 10px;
+  bottom: 9px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.guide-stamp {
+  position: absolute;
+  top: calc(50% - 40px);
+  right: 10px;
+  width: 80px;
+  border-radius: 50%;
+  transform: rotate(-14deg);
+  filter: drop-shadow(0 6px 10px rgb(36 25 19 / 0.28));
+}
+
+/* ---- (06) Voice ------------------------------------------------------ */
+
+.guide-voice-lead {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.guide-voice-lead em {
+  color: var(--color-clay);
+}
+.guide-voice-list {
+  display: grid;
+  gap: 13px;
+  margin-top: 16px;
+}
+.guide-voice-list li {
+  display: grid;
+  gap: 5px;
+}
+.guide-voice-list q {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+}
+.guide-voice-rule {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--color-bark);
+}
